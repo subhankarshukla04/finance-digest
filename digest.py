@@ -303,8 +303,11 @@ def render_html(market_data: dict, summary: str, articles: list) -> str:
 *{{box-sizing:border-box;margin:0;padding:0}}
 body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f172a;color:#e2e8f0;max-width:660px;margin:0 auto;padding:16px;}}
 .hdr{{background:linear-gradient(135deg,#1e3a5f 0%,#0f2d4a 100%);border-radius:14px;padding:20px 20px 16px;margin-bottom:14px}}
+.hdr-top{{display:flex;justify-content:space-between;align-items:flex-start}}
 .hdr-title{{font-size:20px;font-weight:700;color:#93c5fd;letter-spacing:.3px}}
 .hdr-sub{{font-size:12px;color:#64748b;margin-top:5px}}
+.archive-btn{{background:#1e3a5f;color:#93c5fd;border:1px solid #2d5a8e;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap;}}
+.archive-btn:hover{{background:#2d5a8e}}
 .card{{background:#1e293b;border-radius:12px;padding:16px;margin-bottom:12px}}
 .clabel{{font-size:11px;font-weight:700;color:#64748b;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px}}
 table{{width:100%;border-collapse:collapse}}
@@ -331,8 +334,13 @@ table{{width:100%;border-collapse:collapse}}
 <body>
 
 <div class="hdr">
-  <div class="hdr-title">Finance Digest</div>
-  <div class="hdr-sub">{DATE_STR} &nbsp;·&nbsp; {WEEKDAY} &nbsp;·&nbsp; US Market Close</div>
+  <div class="hdr-top">
+    <div>
+      <div class="hdr-title">Finance Digest</div>
+      <div class="hdr-sub">{DATE_STR} &nbsp;·&nbsp; {WEEKDAY} &nbsp;·&nbsp; US Market Close</div>
+    </div>
+    <a href="archive.html" class="archive-btn">📚 Archive</a>
+  </div>
 </div>
 
 <div class="card">
@@ -367,6 +375,78 @@ table{{width:100%;border-collapse:collapse}}
 
 </body>
 </html>"""
+
+
+# ── Archive ───────────────────────────────────────────────────────────────────
+
+def build_archive() -> None:
+    docs = Path("docs")
+    dated = sorted(
+        [f.stem for f in docs.glob("????-??-??.html")],
+        reverse=True,
+    )
+
+    items_html = ""
+    for date_str in dated:
+        try:
+            d = datetime.date.fromisoformat(date_str)
+            label   = d.strftime("%B %d, %Y")
+            weekday = d.strftime("%A")
+            is_today = date_str == TODAY.isoformat()
+            badge = ' <span style="background:#1e3a5f;color:#93c5fd;font-size:10px;padding:2px 7px;border-radius:10px;margin-left:6px;">today</span>' if is_today else ""
+        except ValueError:
+            label, weekday, badge = date_str, "", ""
+
+        items_html += f"""<a href="{date_str}.html" class="dlink">
+  <span class="dday">{weekday}</span>
+  <span class="dlabel">{label}{badge}</span>
+</a>\n"""
+
+    total = len(dated)
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Finance Digest — Archive</title>
+<style>
+*{{box-sizing:border-box;margin:0;padding:0}}
+body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f172a;color:#e2e8f0;max-width:660px;margin:0 auto;padding:16px;}}
+.hdr{{background:linear-gradient(135deg,#1e3a5f 0%,#0f2d4a 100%);border-radius:14px;padding:20px;margin-bottom:14px}}
+.hdr-top{{display:flex;justify-content:space-between;align-items:center}}
+.hdr-title{{font-size:20px;font-weight:700;color:#93c5fd}}
+.hdr-sub{{font-size:12px;color:#64748b;margin-top:5px}}
+.back-btn{{background:#1e3a5f;color:#93c5fd;border:1px solid #2d5a8e;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;text-decoration:none;}}
+.back-btn:hover{{background:#2d5a8e}}
+.card{{background:#1e293b;border-radius:12px;padding:4px 16px;margin-bottom:12px}}
+.dlink{{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid #334155;text-decoration:none;}}
+.dlink:last-child{{border-bottom:none}}
+.dlink:hover .dlabel{{color:#93c5fd}}
+.dday{{font-size:11px;color:#475569;width:70px;flex-shrink:0}}
+.dlabel{{font-size:14px;color:#cbd5e1;font-weight:500}}
+.count{{font-size:12px;color:#475569;text-align:center;padding:10px 0 4px}}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-top">
+    <div>
+      <div class="hdr-title">📚 Digest Archive</div>
+      <div class="hdr-sub">{total} digest{"s" if total != 1 else ""} saved</div>
+    </div>
+    <a href="index.html" class="back-btn">← Today</a>
+  </div>
+</div>
+
+<div class="card">
+{items_html}</div>
+
+</body>
+</html>"""
+
+    (docs / "archive.html").write_text(html, encoding="utf-8")
+    print(f"  Wrote docs/archive.html ({total} entries)")
 
 
 # ── Notification ──────────────────────────────────────────────────────────────
@@ -422,9 +502,12 @@ def main() -> None:
     print("[4/4] Rendering + saving...")
     html = render_html(market_data, summary, articles)
     Path("docs").mkdir(exist_ok=True)
+    dated_file = Path("docs") / f"{TODAY.isoformat()}.html"
+    dated_file.write_text(html, encoding="utf-8")
     Path("docs/index.html").write_text(html, encoding="utf-8")
-    print("  Wrote docs/index.html")
+    print(f"  Wrote docs/index.html + {dated_file.name}")
 
+    build_archive()
     notify(market_data)
     print("=== Done ===")
 
