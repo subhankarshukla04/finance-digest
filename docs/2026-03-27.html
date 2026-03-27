@@ -3,44 +3,263 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0a0a0a">
 <title>Finance Digest — March 27, 2026</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f172a;color:#e2e8f0;max-width:700px;margin:0 auto;padding:16px;}
-.hdr{background:linear-gradient(135deg,#1e3a5f 0%,#0f2d4a 100%);border-radius:14px;padding:18px 20px;margin-bottom:12px}
-.hdr-row{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.hdr-title{font-size:19px;font-weight:700;color:#93c5fd}
-.hdr-sub{font-size:12px;color:#64748b;margin-top:4px}
-.nav-btns{display:flex;gap:6px;flex-shrink:0}
-.nav-btn{background:#1e3a5f;color:#93c5fd;border:1px solid #2d5a8e;border-radius:8px;padding:5px 11px;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap;}
-.nav-btn:hover{background:#2d5a8e}
-.nav-btn.dim{color:#475569;border-color:#1e293b;pointer-events:none}
-.card{background:#1e293b;border-radius:12px;padding:16px;margin-bottom:12px}
-.section-label{font-size:10px;font-weight:700;color:#475569;letter-spacing:1.2px;text-transform:uppercase;margin:14px 0 6px}
-.section-label:first-child{margin-top:0}
-table{width:100%;border-collapse:collapse}
-.mn{padding:6px 0;color:#94a3b8;font-size:13px}
-.mv{padding:6px 0;text-align:right;font-weight:600;font-size:14px;font-variant-numeric:tabular-nums}
-.mc{padding:6px 0;text-align:right;font-size:12px;width:76px}
-.vix-note{margin-top:8px;font-size:11px;color:#475569;border-top:1px solid #334155;padding-top:8px}
-.ai-section{background:#1e293b;border-radius:12px;padding:16px;margin-bottom:10px}
-.ai-section h3{font-size:10px;font-weight:700;color:#64748b;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:9px;padding-bottom:6px;border-bottom:1px solid #334155}
-.ai-section p{font-size:14px;line-height:1.65;color:#cbd5e1;margin-bottom:7px}
-.ai-section .bullet{border-left:2px solid #2d5a8e;padding-left:10px;margin-bottom:8px;color:#cbd5e1}
-.edge{background:linear-gradient(135deg,#14271f,#0d1f17);border:1px solid #166534;border-radius:12px;padding:16px;margin-bottom:12px}
-.elabel{font-size:10px;color:#4ade80;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:5px}
-.etitle{font-size:15px;font-weight:700;color:#86efac;margin-bottom:7px}
-.ebody{font-size:13px;color:#a7f3d0;line-height:1.65}
-.artcard{background:#1e293b;border-radius:12px;padding:14px 16px;margin-bottom:12px}
-.art-item{padding:11px 0;border-bottom:1px solid #1e293b}
-.art-item:not(:last-child){border-bottom:1px solid #334155}
-.art-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
-.stag{display:inline-block;background:#172d47;color:#60a5fa;font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;letter-spacing:.3px}
-.art-title{font-size:14px;color:#e2e8f0;font-weight:500;line-height:1.4;margin-bottom:5px}
-.art-snippet{font-size:12px;color:#64748b;line-height:1.5;margin-bottom:6px}
-.read-link{font-size:12px;color:#60a5fa;text-decoration:none;font-weight:500}
-.read-link:hover{color:#93c5fd;text-decoration:underline}
-.footer{text-align:center;font-size:11px;color:#475569;padding:12px 0 4px}
+:root {
+  --bg:        #0a0a0a;
+  --surface:   #111111;
+  --surface-2: #181818;
+  --border:    #222222;
+  --border-2:  #2a2a2a;
+  --text-1:    #f0f0f0;
+  --text-2:    #888888;
+  --text-3:    #444444;
+  --num:       #ffffff;
+  --up:        #4a7c59;
+  --down:      #8b4a4a;
+  --accent:    #5a8ab0;
+  --green-dim: #1a3328;
+  --green-txt: #7ab898;
+  --green-bdr: #2a4a3a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 15px; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text-1);
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Header ── */
+.hdr {
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  background: var(--surface);
+}
+.hdr-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.hdr-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.hdr-title { font-size: 22px; font-weight: 700; color: var(--text-1); letter-spacing: -0.3px; line-height: 1.2; }
+.hdr-sub { font-size: 12px; color: var(--text-2); margin-top: 5px; }
+.nav { display: flex; gap: 6px; flex-shrink: 0; margin-top: 2px; }
+.nav a, .nav span {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-2);
+  color: var(--text-2);
+  text-decoration: none;
+  white-space: nowrap;
+  background: var(--surface-2);
+}
+.nav a:hover { color: var(--text-1); border-color: var(--text-3); }
+.nav span { opacity: 0.35; pointer-events: none; }
+
+/* ── Market Snapshot ── */
+.mkt-wrap { margin-bottom: 16px; }
+.mkt-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; }
+
+/* Hero grid — 4 main numbers */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1px;
+}
+.hero-cell { background: var(--surface); padding: 14px 16px; }
+.hero-name { font-size: 11px; color: var(--text-2); margin-bottom: 6px; letter-spacing: 0.2px; }
+.hero-price {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--num);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+.hero-chg { font-size: 12px; margin-top: 5px; font-weight: 500; }
+.hero-chg.up   { color: var(--up); }
+.hero-chg.down { color: var(--down); }
+.hero-chg.flat { color: var(--text-3); }
+
+/* Secondary table */
+.sec-table-wrap {
+  border: 1px solid var(--border);
+  border-radius: 0 0 12px 12px;
+  border-top: none;
+  background: var(--surface);
+  overflow: hidden;
+}
+.sec-section-hd {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 8px 16px 4px;
+  background: var(--surface-2);
+  border-top: 1px solid var(--border);
+}
+.sec-section-hd:first-child { border-top: 1px solid var(--border); }
+table.sec { width: 100%; border-collapse: collapse; }
+table.sec td { padding: 7px 16px; font-size: 13px; }
+table.sec tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
+.sn { color: var(--text-2); width: 50%; }
+.sv { text-align: right; font-weight: 600; color: var(--num); font-variant-numeric: tabular-nums; }
+.sc { text-align: right; width: 72px; font-size: 12px; font-weight: 500; }
+.sc.up   { color: var(--up); }
+.sc.down { color: var(--down); }
+.sc.flat { color: var(--text-3); }
+.vix-bar {
+  margin: 0;
+  padding: 10px 16px;
+  font-size: 11px;
+  color: var(--text-3);
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 0 0 11px 11px;
+}
+
+/* ── Analysis Sections ── */
+.analysis { margin-bottom: 16px; }
+.section-block {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.section-block:last-child { margin-bottom: 0; }
+.section-hd {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+.section-body { padding: 14px 16px; }
+.section-body p {
+  font-size: 14px;
+  line-height: 1.72;
+  color: #d8d8d8;
+  margin-bottom: 10px;
+}
+.section-body p:last-child { margin-bottom: 0; }
+.section-body .bullet {
+  padding-left: 12px;
+  border-left: 2px solid var(--border-2);
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #d0d0d0;
+}
+.section-body .bullet:last-child { margin-bottom: 0; }
+
+/* ── Edge Topic ── */
+.edge {
+  border: 1px solid var(--green-bdr);
+  border-radius: 12px;
+  background: var(--green-dim);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.edge-hd {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #4a8a68;
+  padding: 11px 16px 9px;
+  border-bottom: 1px solid var(--green-bdr);
+}
+.edge-body { padding: 14px 16px; }
+.edge-title { font-size: 15px; font-weight: 700; color: var(--green-txt); margin-bottom: 8px; letter-spacing: -0.1px; }
+.edge-text { font-size: 13px; color: #7aaa8a; line-height: 1.68; }
+
+/* ── Articles ── */
+.articles {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.articles-hd {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+.art {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.art:last-child { border-bottom: none; }
+.art-source {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 5px;
+}
+.art-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-1);
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+.art-snippet {
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+.art-link {
+  font-size: 12px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+}
+.art-link:hover { color: var(--text-1); }
+
+/* ── Footer ── */
+.footer {
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-3);
+  padding: 16px 0 8px;
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+  line-height: 1.6;
+}
+
+/* ── Mobile ── */
+@media (max-width: 420px) {
+  body { padding: 12px; }
+  .hero-price { font-size: 19px; }
+  .hero-cell { padding: 12px 14px; }
+}
 </style>
 </head>
 <body>
@@ -48,130 +267,56 @@ table{width:100%;border-collapse:collapse}
 <div class="hdr">
   <div class="hdr-row">
     <div>
-      <div class="hdr-title">Finance Digest</div>
-      <div class="hdr-sub">March 27, 2026 &nbsp;·&nbsp; Friday &nbsp;·&nbsp; US Market Close</div>
+      <div class="hdr-eyebrow">Finance Digest</div>
+      <div class="hdr-title">March 27, 2026</div>
+      <div class="hdr-sub">Friday &nbsp;·&nbsp; US Market Close &nbsp;·&nbsp; 4:00 PM ET</div>
     </div>
-    <div class="nav-btns">
-      <span class="nav-btn dim">← older</span>
-      <a href="archive.html" class="nav-btn">📚</a>
-      <span class="nav-btn dim">latest →</span>
-    </div>
+    <nav class="nav">
+      <span>← older</span>
+      <a href="archive.html" title="Archive">☰</a>
+      <span>latest →</span>
+    </nav>
   </div>
 </div>
 
-<div class="card">
-  <div class="section-label" style="margin-top:0">📊 Market Snapshot</div>
-  <div class="section-label">US Equities</div><table><tr><td class="mn">S&P 500</td><td class="mv">6,477.16</td><td class="mc" style="color:#f87171">▼ 1.21%</td></tr><tr><td class="mn">Nasdaq 100</td><td class="mv">23,587</td><td class="mc" style="color:#f87171">▼ 1.73%</td></tr><tr><td class="mn">Dow Jones</td><td class="mv">45,960</td><td class="mc" style="color:#f87171">▼ 0.36%</td></tr><tr><td class="mn">Russell 2000</td><td class="mv">2,493.32</td><td class="mc" style="color:#f87171">▼ 0.48%</td></tr></table>
-<div class="section-label">US Rates</div><table><tr><td class="mn">5yr Yield</td><td class="mv">4.09%</td><td class="mc" style="color:#94a3b8">▲ 3.15%</td></tr><tr><td class="mn">10yr Yield</td><td class="mv">4.42%</td><td class="mc" style="color:#94a3b8">▲ 2.03%</td></tr><tr><td class="mn">30yr Yield</td><td class="mv">4.94%</td><td class="mc" style="color:#94a3b8">▲ 0.80%</td></tr></table>
-<div class="section-label">FX</div><table><tr><td class="mn">DXY</td><td class="mv">99.98</td><td class="mc" style="color:#94a3b8">▲ 0.08%</td></tr><tr><td class="mn">EUR/USD</td><td class="mv">1.1525</td><td class="mc" style="color:#94a3b8">▼ 0.31%</td></tr><tr><td class="mn">USD/JPY</td><td class="mv">159.86</td><td class="mc" style="color:#94a3b8">▲ 0.30%</td></tr><tr><td class="mn">GBP/USD</td><td class="mv">1.3315</td><td class="mc" style="color:#94a3b8">▼ 0.37%</td></tr></table>
-<div class="section-label">Commodities</div><table><tr><td class="mn">WTI Crude</td><td class="mv">96.11</td><td class="mc" style="color:#4ade80">▲ 1.73%</td></tr><tr><td class="mn">Brent Crude</td><td class="mv">103.14</td><td class="mc" style="color:#f87171">▼ 4.51%</td></tr><tr><td class="mn">Gold</td><td class="mv">4,464.50</td><td class="mc" style="color:#4ade80">▲ 2.03%</td></tr><tr><td class="mn">Copper</td><td class="mv">5.51</td><td class="mc" style="color:#4ade80">▲ 1.10%</td></tr></table>
-<div class="section-label">Vol & Crypto</div><table><tr><td class="mn">VIX</td><td class="mv">28.38</td><td class="mc" style="color:#f59e0b">▲ 3.43%</td></tr><tr><td class="mn">Bitcoin</td><td class="mv">67,911</td><td class="mc" style="color:#f87171">▼ 1.28%</td></tr></table>
-
-  <div class="vix-note">VIX 28.38 — elevated — markets are nervous</div>
+<div class="mkt-wrap">
+  <div class="mkt-label">Market Snapshot</div>
+  <div class="hero-grid"><div class="hero-cell"><div class="hero-name">S&P 500</div><div class="hero-price">6,477.16</div><div class="hero-chg down">-1.21%</div></div><div class="hero-cell"><div class="hero-name">Nasdaq 100</div><div class="hero-price">23,587</div><div class="hero-chg down">-1.73%</div></div><div class="hero-cell"><div class="hero-name">VIX</div><div class="hero-price">28.42</div><div class="hero-chg up">+3.57%</div></div><div class="hero-cell"><div class="hero-name">10yr Yield</div><div class="hero-price">4.42</div><div class="hero-chg up">+2.03%</div></div></div>
+  <div class="sec-table-wrap">
+    <div class="sec-section-hd">US Equities</div><table class="sec"><tr><td class="sn">Dow Jones</td><td class="sv">45,960</td><td class="sc down">-0.36%</td></tr><tr><td class="sn">Russell 2000</td><td class="sv">2,493.32</td><td class="sc down">-0.48%</td></tr></table><div class="sec-section-hd">US Rates</div><table class="sec"><tr><td class="sn">5yr Yield</td><td class="sv">4.09</td><td class="sc up">+3.15%</td></tr><tr><td class="sn">30yr Yield</td><td class="sv">4.94</td><td class="sc up">+0.80%</td></tr></table><div class="sec-section-hd">FX</div><table class="sec"><tr><td class="sn">DXY</td><td class="sv">100.01</td><td class="sc up">+0.11%</td></tr><tr><td class="sn">EUR/USD</td><td class="sv">1.1525</td><td class="sc down">-0.31%</td></tr><tr><td class="sn">USD/JPY</td><td class="sv">159.87</td><td class="sc up">+0.31%</td></tr><tr><td class="sn">GBP/USD</td><td class="sv">1.3312</td><td class="sc down">-0.39%</td></tr></table><div class="sec-section-hd">Commodities</div><table class="sec"><tr><td class="sn">WTI Crude</td><td class="sv">96.05</td><td class="sc up">+1.66%</td></tr><tr><td class="sn">Brent Crude</td><td class="sv">103.40</td><td class="sc down">-4.27%</td></tr><tr><td class="sn">Gold</td><td class="sv">4,455.30</td><td class="sc up">+1.82%</td></tr><tr><td class="sn">Copper</td><td class="sv">5.50</td><td class="sc up">+0.95%</td></tr></table><div class="sec-section-hd">Crypto</div><table class="sec"><tr><td class="sn">Bitcoin</td><td class="sv">67,608</td><td class="sc down">-1.72%</td></tr></table>
+    <div class="vix-bar">VIX elevated — options market is pricing meaningful near-term risk.</div>
+  </div>
 </div>
 
-<div class="ai-section"><h3>MACRO & RATE MOVES</h3>
-<p>Today's rate moves were driven by uncertainty surrounding the Iran war, with the 5yr, 10yr, and 30yr yields increasing by 3.15%, 2.03%, and 0.80%, respectively. The yield curve is signaling a potential economic slowdown, with the spread between the 10yr and 2yr yields narrowing. The Federal Reserve's decision to hold interest rates steady, as reported by U.S. Bank, remains in focus as inflation and hiring remain key concerns.</p>
+<div class="analysis"><div class="section-block"><div class="section-hd">WHAT MOVED MARKETS — AND WHY</div><div class="section-body"><p>The primary catalyst for today's market moves was the ongoing US-Iran war, which has triggered a significant global energy supply disruption. This geopolitical event led to a rise in oil prices, with WTI Crude increasing by 1.66% and Brent Crude decreasing by 4.27%, causing a ripple effect in the markets. As a result, the S&P 500 and Nasdaq 100 declined by 1.21% and 1.73%, respectively, while the VIX increased by 3.57%, indicating increased market volatility. The rise in oil prices also led to a strengthening of the US dollar, with the DXY increasing by 0.11%, which in turn affected currency pairs such as EUR/USD and USD/JPY.</p>
+</div></div>
+<div class="section-block"><div class="section-hd">TOP STORIES</div><div class="section-body"><p class="bullet">CNA — Bank of Japan may raise rates by June as Iran war fuels inflation. The former top economist's statement caused a stir in the market, implying that the Bank of Japan may take action to address rising inflation, which could have a downstream effect on the yen and Japanese stocks.</p>
+<p class="bullet">IBTIMES.COM.AU — 10 Countries Suffering Biggest Economic Losses From US-Iran War. The ongoing war has led to significant economic losses for several countries, causing market uncertainty and volatility, which in turn affects investor sentiment and asset prices.</p>
+<p class="bullet">CNBC MARKETS — Oil prices rise as Trump says Iran let 10 tankers through Strait of Hormuz as a 'present'. The increase in oil prices due to the US-Iran war has led to a rise in energy costs, affecting economic growth and causing foreign investors to pull out of Indian stocks, resulting in a record $12 billion withdrawal.</p>
+<p class="bullet">FINANCIAL POST — Israel and Iran Keep Up Strikes With Talks to End War Uncertain. The ongoing conflict has led to market uncertainty, causing investors to seek safe-haven assets such as gold, which increased by 1.82%, and affecting currency pairs such as USD/JPY.</p>
+</div></div>
+<div class="section-block"><div class="section-hd">RATES & THE YIELD CURVE</div><div class="section-body"><p>The bond market is pricing in a potential rate hike by the Bank of Japan, which has led to a steepening of the yield curve. The 10-year yield increased by 2.03% to 4.42%, while the 5-year yield increased by 3.15% to 4.09%, indicating that the market expects interest rates to rise in the near future. This rate move signals that the market thinks the economy is likely to experience higher inflation and growth, leading to increased borrowing costs.</p>
+</div></div>
+<div class="section-block"><div class="section-hd">DEALS & CORPORATE</div><div class="section-body"><p>Pony AI Inc. announced a significant increase in revenues, with a 160% growth in robotaxi revenues and a 500%+ surge in fare-charging revenues, indicating a strong demand for autonomous driving technology. Table Space also expanded its presence in Bengaluru, leasing 4.69 lakh sq ft of Grade-A managed office space, catering to the growing demand for office space in the region.</p>
+</div></div>
+<div class="section-block"><div class="section-hd">WATCH TOMORROW</div><div class="section-body"><p>The single most important event to watch tomorrow is the potential development in the US-Iran war, as any escalation or de-escalation of the conflict could significantly impact global energy prices and market volatility.</p>
+</div></div>
 </div>
-<div class="ai-section"><h3>TOP STORIES</h3>
-<p class="bullet">→ ASSOCIATED PRESS: Asian shares fall and oil climbs on Iran war uncertainties — The ongoing conflict in Iran is causing market volatility and impacting oil prices.</p>
-<p class="bullet">→ CNBC MARKETS: Private credit's cracks open door for Wall Street banks' comeback — Wall Street banks may finally be getting a long-awaited opening to claw back market share from private credit lenders.</p>
-<p class="bullet">→ CNBC MARKETS: Foreign investors pull a record $12 billion from Indian stocks, sparked by Iran war — The Iran conflict is driving foreign investors out of Indian equities, raising doubts on economic growth.</p>
-<p class="bullet">→ BUSINESS INSIDER: A top Citi banker warns AI could mean a 'tragic end' for capitalism if we don't act now — A Citi banker is warning that AI and robotics pose a significant threat to capitalism, requiring an immediate response.</p>
-</div>
-<div class="ai-section"><h3>DEALS & CORPORATE</h3>
-<p>No major deal activity was reported in today's feed, but Wolters Kluwer did announce that it has repurchased 107,852 of its own ordinary shares in the period from March 19 to March 25, 2026. Nayara Energy raised petrol and diesel prices due to surging crude and mounting margin pressure.</p>
-</div>
-<div class="ai-section"><h3>AI & TECH IN FINANCE</h3>
-<p>A top Citi banker warned that AI and robotics could mean a "tragic end" for capitalism if not addressed promptly, highlighting the need for immediate action. This warning suggests that AI is becoming an increasingly important consideration for financial institutions and policymakers.</p>
-</div>
-<div class="ai-section"><h3>ONE THING FOR TOMORROW</h3>
-<p>Tomorrow's trading session will likely be driven by ongoing developments in the Iran war and their impact on global markets, particularly oil prices and investor sentiment.</p>
-</div>
-
 
 <div class="edge">
-  <div class="elabel">💡 Today's Edge — Friday</div>
-  <div class="etitle">Deglobalization & Supply Chains</div>
-  <div class="ebody">Trade blocs are replacing free trade. Nearshoring, friendshoring, CHIPS Act subsidies, and export controls are forcing companies to rebuild supply chains for resilience over efficiency. This shift is persistently inflationary (+0.5–1% CPI), distorts FX, and creates long-duration capex cycles in manufacturing, semis, and energy infrastructure.</div>
+  <div class="edge-hd">Today's Edge — Friday</div>
+  <div class="edge-body">
+    <div class="edge-title">Deglobalization & Supply Chains</div>
+    <div class="edge-text">Trade blocs are replacing free trade. Nearshoring, friendshoring, CHIPS Act subsidies, and export controls are forcing companies to rebuild supply chains for resilience over efficiency. This structural shift is persistently inflationary (+0.5–1% CPI), distorts FX rates, and creates long-duration capex cycles in manufacturing, semiconductors, and energy infrastructure. Every M&A deal in these sectors is affected.</div>
+  </div>
 </div>
 
-<div class="artcard">
-  <div class="section-label" style="margin-top:0">📰 Source Articles — tap to read full</div>
-  <div class="art-item">
-  <div class="art-meta"><span class="stag">Associated Press</span></div>
-  <div class="art-title">Asian shares fall and oil climbs on Iran war uncertainties</div>
-  <div class="art-snippet">U.S. stocks had their worst day since the war with Iran started, as doubt took over again from hope on Wall Street about a possible end to the conflict. The S&P 500 fell 1.7% Thursday. The index is back on track for a fi…</div>
-  <a href="https://apnews.com/article/stock-markets-trump-iran-oil-8118f58d75859b9fc74ab133fa9e8c3e" target="_blank" rel="noopener" class="read-link">Read full article →</a>
-</div>
-<div class="art-item">
-  <div class="art-meta"><span class="stag">Ibtimes.com.au</span></div>
-  <div class="art-title">World Cup 2026: 5 Top Lead Contenders for 2026 World Cup Golden Boot</div>
-  <div class="art-snippet">With the expanded 48-team FIFA World Cup 2026 set to kick off on June 11 across stadiums in the United States, Canada and Mexico, attention is already turning to who will claim the adidas Golden Boot as the tournament's …</div>
-  <a href="https://www.ibtimes.com.au/world-cup-2026-5-top-lead-contenders-2026-world-cup-golden-boot-1864501" target="_blank" rel="noopener" class="read-link">Read full article →</a>
-</div>
-<div class="art-item">
-  <div class="art-meta"><span class="stag">Bitcoinist</span></div>
-  <div class="art-title">Coinbase Dismisses Revised Clarity Act, Signals Ongoing Friction</div>
-  <div class="art-snippet">In January, Coinbase CEO Brian Armstrong posted on X the night before a planned Senate Banking Committee markup, declared his company could not back the bill, and forced the hearing off the calendar. Related Reading: Bit…</div>
-  <a href="https://bitcoinist.com/coinbase-dismisses-revised-clarity-act-signals-ongoing-friction/" target="_blank" rel="noopener" class="read-link">Read full article →</a>
-</div>
-<div class="art-item">
-  <div class="art-meta"><span class="stag">Fox News</span></div>
-  <div class="art-title">America's $39 trillion debt bomb could be more painful than you think</div>
-  <div class="art-snippet">With $39 trillion in national debt, politicians are selling myths about growth and tax hikes — but the real risk is to your savings and purchasing power.…</div>
-  <a href="https://www.foxnews.com/opinion/americas-39-trillion-debt-bomb-could-be-more-painful-than-you-think" target="_blank" rel="noopener" class="read-link">Read full article →</a>
-</div>
-<div class="art-item">
-  <div class="art-meta"><span class="stag">Yahoo Entertainment</span></div>
-  <div class="art-title">MLB 2026 predictions: are the Dodgers inevitable? Maybe not …</div>
-  <div class="art-snippet">The World Series champions have somehow become even stronger. But there are a few teams who could stop them from retaining their title…</div>
-  <a href="https://sports.yahoo.com/articles/mlb-2026-predictions-dodgers-inevitable-090033791.html" target="_blank" rel="noopener" class="read-link">Read full article →</a>
-</div>
-<div class="art-item">
-  <div class="art-meta"><span class="stag">Livemint</span></div>
-  <div class="art-title">Nayara Energy raises petrol, diesel prices as West Asia war squeezes supply</div>
-  <div class="art-snippet">The private retailer has hiked petrol, diesel rates ahead of state-run OMCs amid surging crude and mounting margin pressure.…</div>
-  <a href="https://www.livemint.com/companies/news/nayara-energy-raises-petrol-diesel-prices-as-west-asia-war-squeezes-supply-11774511959196.html" target="_blank" rel="noopener" class="read-link">Read full article →</a>
-</div>
-<div class="art-item">
-  <div class="art-meta"><span class="stag">CBS News</span></div>
-  <div class="art-title">As wealth taxes gain traction, Warren proposes levy on the ultra-rich</div>
-  <div class="art-snippet">Sen. Elizabeth Warren's bill would raise taxes on households worth more than $50 million and on billionaires.…</div>
-  <a href="https://www.cbsnews.com/news/elizabeth-warren-wealth-tax-plan-ultra-millionaire-tax-act/" target="_blank" rel="noopener" class="read-link">Read full article →</a>
-</div>
-<div class="art-item">
-  <div class="art-meta"><span class="stag">Sporting News</span></div>
-  <div class="art-title">UFL schedule 2026: Dates, times, TV channels, live streams, teams to watch spring football league games</div>
-  <div class="art-snippet">The Sporting News brings you everything you need to know for the 2026 UFL season, including start times, TV channels and streaming options.…</div>
-  <a href="https://www.sportingnews.com/us/tsn/news/ufl-schedule-2026-dates-times-channels-streams-watch-spring-football/b804388e07e42ebdaa42a0ed" target="_blank" rel="noopener" class="read-link">Read full article →</a>
-</div>
-<div class="art-item">
-  <div class="art-meta"><span class="stag">Business Insider</span></div>
-  <div class="art-title">A top Citi banker warns AI could mean a 'tragic end' for capitalism if we don't act now</div>
-  <div class="art-snippet">AI and robotics' threat to capitalism is coming fast and requires an immediate response, Citi's Jay Collins told BI.…</div>
-  <a href="https://www.businessinsider.com/ai-impact-on-capitalism-future-response-citi-banker-jay-collins-2026-3" target="_blank" rel="noopener" class="read-link">Read full article →</a>
-</div>
-<div class="art-item">
-  <div class="art-meta"><span class="stag">Wattsupwiththat.com</span></div>
-  <div class="art-title">Transition realism hits Barclays</div>
-  <div class="art-snippet">Imagine you had been fed climate nonsense your whole life. Your teachers were emptied-headed little bimbos who had bought into the climate agenda wholesale and tolerated no dissent from their students. By the time that y…</div>
-  <a href="https://wattsupwiththat.com/2026/03/26/transition-realism-hits-barclays/" target="_blank" rel="noopener" class="read-link">Read full article →</a>
-</div>
-<div class="art-item">
-  <div class="art-meta"><span class="stag">GlobeNewswire</span></div>
-  <div class="art-title">Share Buyback Transaction Details March 19 – March 25, 2026</div>
-  <div class="art-snippet">Wolters Kluwer today reports that it has repurchased 107,852 of own ordinary shares in the period from March 19, 2026, up to and including March 25, 2026...…</div>
-  <a href="https://www.globenewswire.com/news-release/2026/03/26/3262788/0/en/Share-Buyback-Transaction-Details-March-19-March-25-2026.html" target="_blank" rel="noopener" class="read-link">Read full article →</a>
-</div>
-<div class="art-item">
-  <div class="art-meta"><span class="stag">The American Prospec</span></div>
-  <div class="art-title">More States Are Taxing the Ultra-Rich—Washington Is the Latest</div>
-  <div class="art-snippet">As inequality grows, states are stepping up where the federal government hasn’t. ‘It’s a movement,’ says Patriotic Millionaires’ Chuck Collins.
-The post More States Are Taxing the Ultra-Rich—Washington Is the Latest appe…</div>
-  <a href="http://prospect.org/2026/03/26/more-states-taxing-ultra-rich-washington-california/" target="_blank" rel="noopener" class="read-link">Read full article →</a>
-</div>
-
+<div class="articles">
+  <div class="articles-hd">Source Articles — tap to read in full</div>
+  <div class="art"><div class="art-source">Livemint</div><div class="art-title">Don’t let rent eat your paycheck: A starter guide</div><div class="art-snippet">Rent shapes everything: how much you save, how stressed you are, and how quickly you build a financial cushion. As rents climb and entry-level salaries struggle to keep pace, the tough question is: how much is too much?…</div><a href="https://www.livemint.com/money/personal-finance/house-rent-affordability-india-salary-vs-rent-financial-planning-rent-expenses-11774500773025.html" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">CNA</div><div class="art-title">Bank of Japan may raise rates by June as Iran war fuels inflation, its ex-top economist says</div><div class="art-snippet">TOKYO, March 26 : The Bank of Japan is likely to raise interest rates by June, as rising oil costs from the Iran war heightens the chance of being too late in addressing the risk of too-high inflation, its former top economist Seisaku Kameda said on Thursday.……</div><a href="https://www.channelnewsasia.com/business/bank-japan-may-raise-rates-june-iran-war-fuels-inflation-its-ex-top-economist-says-6018351" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">Slashdot.org</div><div class="art-title">Asia Is Getting Crushed Between Oil Prices and the Dollar - The New York Times</div><div class="art-snippet">Asia Is Getting Crushed Between Oil Prices and the DollarThe New York Times Asia FX Talk - Time is of essence on Strait of HormuzMUFG Research APAC FX: Balance-of-payments strains shape flows – BNYTMGM Asian currencies consolidate as traders eye Middle East d……</div><a href="https://slashdot.org/firehose.pl?op=view&amp;id=181105762" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">Ibtimes.com.au</div><div class="art-title">10 Countries Suffering Biggest Economic Losses From US-Iran War</div><div class="art-snippet">The ongoing US-Iran war, now in its fourth week, has triggered the largest global energy supply disruption in decades through attacks on infrastructure and threats to shipping in the Strait of Hormuz…</div><a href="https://www.ibtimes.com.au/10-countries-suffering-biggest-economic-losses-us-iran-war-1864507" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">Financial Post</div><div class="art-title">Israel and Iran Keep Up Strikes With Talks to End War Uncertain</div><div class="art-snippet">Israel and Iran exchanged missile strikes as the status of potential peace talks remains uncertain, extending a war that’s wreaked havoc across the Middle East and global markets.…</div><a href="https://financialpost.com/pmn/business-pmn/israel-and-iran-keep-up-strikes-with-talks-to-end-war-uncertain" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">Cheezburger.com</div><div class="art-title">Japanese spa offers special back massages from cats leaving feline fans with the purrfect finish</div><div class="art-snippet">As if we needed one more excuse to book a trip to Japan.
+Japan has been at the top of our dream vacation list for years. We love everything matcha, sushi, and kawaii, so it's a purrfectly natural first contender. Not to mention the numerous cat cafes, cat is……</div><a href="https://cheezburger.com/44785157/japanese-spa-offers-special-back-massages-from-cats-leaving-feline-fans-with-the-purrfect-finish" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">The American Prospect</div><div class="art-title">Trump’s Billion-Dollar French Boondoggle Gets Even Dumber</div><div class="art-snippet">He is paying TotalEnergies a billion dollars to do natural gas investments it is already doing.
+The post Trump’s Billion-Dollar French Boondoggle Gets Even Dumber appeared first on The American Prospect.…</div><a href="http://prospect.org/2026/03/26/trump-billion-dollar-totalenergies-natural-gas-wind-power/" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">GlobeNewswire</div><div class="art-title">PONY AI Inc. Scales with 160% Robotaxi Revenues Growth YoY and 500%+ Fare-Charging Revenues Surge YoY in Q4, Targeting Deployment in 20+ Cities by Year-End</div><div class="art-snippet">NEW YORK, March 26, 2026 (GLOBE NEWSWIRE) -- Pony AI Inc. (“Pony.ai” or the “Company”) (NASDAQ: PONY; HKEX: 2026), a global leader in achieving large-scale mass production and commercialization of autonomous driving technology, today announced its unaudited f……</div><a href="https://www.globenewswire.com/news-release/2026/03/26/3262790/0/en/PONY-AI-Inc-Scales-with-160-Robotaxi-Revenues-Growth-YoY-and-500-Fare-Charging-Revenues-Surge-YoY-in-Q4-Targeting-Deployment-in-20-Cities-by-Year-End.html" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">The Times of India</div><div class="art-title">Table Space leases 4.6 lakh sq ft in Bengaluru, portfolio tops 4.2 million sq ft</div><div class="art-snippet">Table Space has significantly expanded its Bengaluru presence. The company leased 4.69 lakh sq ft of Grade-A managed office space. This expansion brings Table Space's total managed office portfolio in Bengaluru to over 4.2 million sq ft. This move caters to t……</div><a href="https://economictimes.indiatimes.com/industry/services/property-/-cstruction/bengaluru-based-table-space-leases-469-lakh-sq-ft-of-premium-office-space-expanding-its-portfolio-to-over-42-million-sq-ft/articleshow/129819817.cms" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">Insurance Journal</div><div class="art-title">Rich Britons Reap Biggest Benefits From UK State Flood Program</div><div class="art-snippet">It’s not how the program was supposed to work. But thanks to a legal anachronism, Britain’s state-backed plan intended to help those most exposed to flooding has ended up favoring the country’s richest property owners. Economists at the Bank of ……</div><a href="https://www.insurancejournal.com/news/international/2026/03/26/863387.htm" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">The Next Web</div><div class="art-title">SOUS raises €4M to power culinary entrepreneurs</div><div class="art-snippet">The Amsterdam startup, founded in 2022, is building a single AI platform that handles customer discovery, direct ordering, and retention for independent food and beverage operators. seed + speed Ventures led the round; PeakBridge returned alongside āltitude a……</div><a href="https://thenextweb.com/news/sous-4m-seed-ai-restaurant-growth-platform" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">Bitcoinfoundation.org</div><div class="art-title">What Is Solana and How It Works? Ultimate Guide for Beginners</div><div class="art-snippet">Solana is a Layer 1 blockchain designed for fast, low-cost transactions. Its native token is SOL, which is used for fees, transfers, staking, and accessing...
+The post What Is Solana and How It Works? Ultimate Guide for Beginners appeared first on Bitcoin Fou……</div><a href="https://bitcoinfoundation.org/news/altcoins/what-is-solana-and-how-it-works/" target="_blank" rel="noopener" class="art-link">Read full article →</a></div>
 </div>
 
 <div class="footer">
