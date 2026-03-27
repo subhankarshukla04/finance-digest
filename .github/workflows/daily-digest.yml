@@ -3,10 +3,10 @@ name: Daily Finance Digest
 on:
   schedule:
     - cron: '0 16 * * 1-5'   # 16:00 UTC = 9:30 PM IST = 4:00 PM ET (US market close)
-  workflow_dispatch:           # lets you trigger manually from the Actions tab anytime
+  workflow_dispatch:           # manual trigger from Actions tab
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
+      url: https://subhankarshukla04.github.io/finance-digest
 
     steps:
       - name: Checkout
@@ -39,8 +39,17 @@ jobs:
           GROQ_API_KEY:   ${{ secrets.GROQ_API_KEY }}
           NEWS_API_KEY:   ${{ secrets.NEWS_API_KEY }}
           BARK_KEY:       ${{ secrets.BARK_KEY }}
-          DIGEST_URL:     https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+          DIGEST_URL:     https://subhankarshukla04.github.io/finance-digest
+
         run: python digest.py
+
+      - name: Commit archived digest
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/
+          git diff --staged --quiet || git commit -m "digest: $(date -u +%Y-%m-%d)"
+          git push
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
@@ -48,5 +57,4 @@ jobs:
           path: docs/
 
       - name: Deploy to GitHub Pages
-        id: deploy
         uses: actions/deploy-pages@v4
