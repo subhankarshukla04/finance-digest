@@ -29,73 +29,70 @@ EDGE_TOPICS = {
         "Private Credit Boom",
         "Private credit has grown into a $2T+ market, replacing banks as the primary lenders to mid-market companies. "
         "PE firms (Apollo, Ares, Blackstone) now control lending that banks once dominated. This shifts credit risk off "
-        "regulated balance sheets and into less transparent structures. Understanding this matters for any credit or "
-        "leveraged finance role.",
+        "regulated balance sheets and into less transparent structures. Understanding this is essential for any "
+        "credit or leveraged finance role — it's one of the most significant structural changes in finance this decade.",
     ),
     "Tuesday": (
         "AI Capex vs. ROI",
         "Microsoft, Google, Meta, and Amazon are spending $300B+ combined on AI infrastructure in 2025–26. Markets "
         "have priced in transformative returns. The critical question: when does revenue justify the spend? Watch "
         "cloud revenue growth and enterprise AI adoption rates in earnings calls — those are the leading indicators "
-        "Wall Street uses to validate or challenge the AI trade.",
+        "Wall Street uses to validate or challenge the AI trade. The answer will define valuations for years.",
     ),
     "Wednesday": (
         "India & Southeast Asia Capital Flows",
         "India's equity market crossed $4T in market cap. FII inflows, the manufacturing shift from China, and a "
-        "600M+ middle class are creating a multi-decade structural story. Key sectors: infrastructure, financials, "
-        "consumer. Southeast Asia (Vietnam, Indonesia) is the supply chain beneficiary. This is where long-duration "
-        "EM capital is moving.",
+        "600M+ growing middle class are creating a multi-decade structural story. Key sectors: infrastructure, "
+        "financials, consumer discretionary. Southeast Asia (Vietnam, Indonesia) is the supply chain beneficiary. "
+        "This is where long-duration EM capital is moving — and it matters for every global macro conversation.",
     ),
     "Thursday": (
         "Sovereign Debt Stress",
         "US debt-to-GDP sits above 120%. Japan's yield curve control is at credibility limits. Several EM economies "
-        "face dollar-debt refinancing walls as rates stay higher for longer. CBO projects US interest costs exceeding "
-        "defense spending. Rising sovereign risk reprices global bonds, widens spreads, and affects every risk asset "
-        "class — this is macro's slow-moving earthquake.",
+        "face dollar-debt refinancing walls as rates stay higher for longer. The CBO projects US interest costs "
+        "exceeding defense spending. Rising sovereign risk reprices global bonds, widens credit spreads, and "
+        "affects every risk asset class — this is macro's slow-moving earthquake that everyone is watching.",
     ),
     "Friday": (
         "Deglobalization & Supply Chains",
         "Trade blocs are replacing free trade. Nearshoring, friendshoring, CHIPS Act subsidies, and export controls "
-        "are forcing companies to rebuild supply chains for resilience over efficiency. This shift is persistently "
-        "inflationary (+0.5–1% CPI), distorts FX, and creates long-duration capex cycles in manufacturing, semis, "
-        "and energy infrastructure.",
+        "are forcing companies to rebuild supply chains for resilience over efficiency. This structural shift is "
+        "persistently inflationary (+0.5–1% CPI), distorts FX rates, and creates long-duration capex cycles in "
+        "manufacturing, semiconductors, and energy infrastructure. Every M&A deal in these sectors is affected.",
     ),
 }
 
-# ── Market Data: Everything Wall Street Tracks ────────────────────────────────
-# Organized into sections. (symbol, display_name, section, unit_suffix)
+# ── Market Data: What IB tracks at close ─────────────────────────────────────
+# (yahoo_symbol, display_name, section, is_hero)
 
 MARKET_SYMBOLS = [
-    # US Equities
-    ("^GSPC",     "S&P 500",      "US Equities",      ""),
-    ("^NDX",      "Nasdaq 100",   "US Equities",      ""),
-    ("^DJI",      "Dow Jones",    "US Equities",      ""),
-    ("^RUT",      "Russell 2000", "US Equities",      ""),
-    # US Rates
-    ("^FVX",      "5yr Yield",    "US Rates",         "%"),
-    ("^TNX",      "10yr Yield",   "US Rates",         "%"),
-    ("^TYX",      "30yr Yield",   "US Rates",         "%"),
-    # FX
-    ("DX-Y.NYB",  "DXY",         "FX",               ""),
-    ("EURUSD=X",  "EUR/USD",     "FX",               ""),
-    ("USDJPY=X",  "USD/JPY",     "FX",               ""),
-    ("GBPUSD=X",  "GBP/USD",     "FX",               ""),
-    # Commodities
-    ("CL=F",      "WTI Crude",   "Commodities",      ""),
-    ("BZ=F",      "Brent Crude", "Commodities",      ""),
-    ("GC=F",      "Gold",        "Commodities",      ""),
-    ("HG=F",      "Copper",      "Commodities",      ""),
-    # Volatility & Crypto
-    ("^VIX",      "VIX",         "Vol & Crypto",     ""),
-    ("BTC-USD",   "Bitcoin",     "Vol & Crypto",     ""),
+    # Hero — shown large at top
+    ("^GSPC",    "S&P 500",      "hero",         True),
+    ("^NDX",     "Nasdaq 100",   "hero",         True),
+    ("^VIX",     "VIX",          "hero",         True),
+    ("^TNX",     "10yr Yield",   "hero",         True),
+    # Secondary table
+    ("^DJI",     "Dow Jones",    "US Equities",  False),
+    ("^RUT",     "Russell 2000", "US Equities",  False),
+    ("^FVX",     "5yr Yield",    "US Rates",     False),
+    ("^TYX",     "30yr Yield",   "US Rates",     False),
+    ("DX-Y.NYB", "DXY",          "FX",           False),
+    ("EURUSD=X", "EUR/USD",      "FX",           False),
+    ("USDJPY=X", "USD/JPY",      "FX",           False),
+    ("GBPUSD=X", "GBP/USD",      "FX",           False),
+    ("CL=F",     "WTI Crude",    "Commodities",  False),
+    ("BZ=F",     "Brent Crude",  "Commodities",  False),
+    ("GC=F",     "Gold",         "Commodities",  False),
+    ("HG=F",     "Copper",       "Commodities",  False),
+    ("BTC-USD",  "Bitcoin",      "Crypto",       False),
 ]
 
 RSS_FEEDS = [
-    ("The Economist",          "https://www.economist.com/finance-and-economics/rss.xml",                                              3),
-    ("CNBC Markets",           "https://www.cnbc.com/id/100003114/device/rss/rss.html",                                               4),
-    ("Google News — Markets",  "https://news.google.com/rss/search?q=financial+markets+economy+fed+rates+treasury&hl=en-US&gl=US&ceid=US:en", 5),
-    ("Google News — Deals",    "https://news.google.com/rss/search?q=merger+acquisition+IPO+earnings+wall+street&hl=en-US&gl=US&ceid=US:en",  3),
-    ("Google News — AI/Banks", "https://news.google.com/rss/search?q=AI+JPMorgan+Goldman+Sachs+Morgan+Stanley+banking&hl=en-US&gl=US&ceid=US:en", 3),
+    ("The Economist",         "https://www.economist.com/finance-and-economics/rss.xml",                                               3),
+    ("CNBC Markets",          "https://www.cnbc.com/id/100003114/device/rss/rss.html",                                                4),
+    ("Google News — Markets", "https://news.google.com/rss/search?q=financial+markets+economy+fed+rates+treasury&hl=en-US&gl=US&ceid=US:en",  5),
+    ("Google News — Deals",   "https://news.google.com/rss/search?q=merger+acquisition+IPO+earnings+wall+street&hl=en-US&gl=US&ceid=US:en",   3),
+    ("Google News — AI/Banks","https://news.google.com/rss/search?q=AI+JPMorgan+Goldman+Sachs+Morgan+Stanley+banking&hl=en-US&gl=US&ceid=US:en",3),
 ]
 
 # ── Market Data Fetching ──────────────────────────────────────────────────────
@@ -104,7 +101,7 @@ def fetch_market_data() -> dict:
     results = {}
     headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"}
 
-    for symbol, name, section, unit in MARKET_SYMBOLS:
+    for symbol, name, section, is_hero in MARKET_SYMBOLS:
         try:
             url = f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?interval=1d&range=2d"
             r = requests.get(url, headers=headers, timeout=15)
@@ -114,7 +111,6 @@ def fetch_market_data() -> dict:
             prev  = meta["chartPreviousClose"]
             pct   = ((price - prev) / prev) * 100
 
-            # Format price nicely
             if name in ("EUR/USD", "GBP/USD"):
                 disp = f"{price:.4f}"
             elif name in ("VIX", "5yr Yield", "10yr Yield", "30yr Yield"):
@@ -127,17 +123,17 @@ def fetch_market_data() -> dict:
             results[name] = {
                 "price":    price,
                 "pct":      round(pct, 2),
-                "arrow":    "▲" if pct >= 0 else "▼",
-                "display":  disp + unit,
-                "chg":      f"{'▲' if pct >= 0 else '▼'} {abs(pct):.2f}%",
                 "positive": pct >= 0,
+                "display":  disp,
+                "chg":      f"{'+' if pct >= 0 else ''}{pct:.2f}%",
                 "section":  section,
+                "is_hero":  is_hero,
             }
         except Exception as e:
             print(f"  [market] {name} ({symbol}) failed: {e}")
             results[name] = {
-                "price": None, "pct": 0, "arrow": "", "display": "N/A",
-                "chg": "—", "positive": True, "section": section,
+                "price": None, "pct": 0, "positive": True,
+                "display": "—", "chg": "—", "section": section, "is_hero": is_hero,
             }
         time.sleep(1.5)
 
@@ -171,11 +167,11 @@ def fetch_newsapi() -> list:
         for a in r.json().get("articles", []):
             out.append({
                 "title":   a.get("title", ""),
-                "snippet": (a.get("description") or "")[:400],
+                "snippet": (a.get("description") or "")[:500],
                 "source":  a.get("source", {}).get("name", "NewsAPI"),
                 "url":     a.get("url", ""),
             })
-        print(f"  [news] NewsAPI: {len(out)} articles")
+        print(f"  [news] NewsAPI: {len(out)}")
         return out
     except Exception as e:
         print(f"  [news] NewsAPI failed: {e}")
@@ -190,7 +186,7 @@ def fetch_rss() -> list:
             count = 0
             for entry in feed.entries[:limit]:
                 title   = entry.get("title", "").strip()
-                snippet = strip_html(entry.get("summary", ""))[:400]
+                snippet = strip_html(entry.get("summary", ""))[:500]
                 link    = entry.get("link", "")
                 if title:
                     articles.append({"title": title, "snippet": snippet, "source": name, "url": link})
@@ -211,7 +207,7 @@ def dedupe(articles: list) -> list:
     return out
 
 
-# ── LLM Summarization — IB-Grade Prompt ──────────────────────────────────────
+# ── LLM: Explain WHY, not just WHAT ──────────────────────────────────────────
 
 def summarize(articles: list, market_data: dict) -> str:
     if not GROQ_API_KEY:
@@ -221,7 +217,7 @@ def summarize(articles: list, market_data: dict) -> str:
     mkt = "\n".join(
         f"- {n}: {d['display']} ({d['chg']})"
         for n, d in market_data.items()
-        if d["display"] != "N/A"
+        if d["display"] != "—"
     )
 
     art_block = "\n\n".join(
@@ -229,34 +225,36 @@ def summarize(articles: list, market_data: dict) -> str:
         for i, a in enumerate(articles[:22])
     )
 
-    prompt = f"""You are a Goldman Sachs markets associate writing the end-of-day briefing for analysts and IB interns.
+    prompt = f"""You are a Goldman Sachs senior analyst writing the end-of-day briefing for IB analysts and finance interns.
 
 Date: {DATE_STR} ({WEEKDAY})
 
-MARKET CLOSE DATA:
+MARKET CLOSE:
 {mkt}
 
-TODAY'S NEWS:
+TODAY'S ARTICLES:
 {art_block}
 
-Write exactly these five sections. Be sharp, specific, and direct — like a real sell-side note. Only use facts from the articles above. Never invent data or quotes.
+Your job is not just to say WHAT happened — explain WHY it happened, what CAUSED it, and what it MEANS. A reader should finish this briefing genuinely understanding today's market, not just knowing the headlines.
 
-## MACRO & RATE MOVES
-3 sentences max. What drove rates today? Any Fed speakers, inflation data, or economic releases? What is the yield curve signaling?
+Write exactly these five sections using only facts from the articles above. Never invent data.
+
+## WHAT MOVED MARKETS — AND WHY
+3–4 sentences. Name the primary catalyst (specific data release, Fed speaker, earnings, geopolitical event). Then trace the mechanism: how did that catalyst flow through into the price moves we saw? Explain the cause-and-effect chain so a smart student can follow it. Connect at least two asset classes in your explanation.
 
 ## TOP STORIES
-Exactly 4 bullet points. Format: • [SOURCE] Title — one sentence on why it matters for markets or deals.
+4 bullet points. Format: • [SOURCE] — headline context. Then one sentence explaining: what caused this, and what the downstream market effect is. Go beyond restating the headline — explain the implication.
+
+## RATES & THE YIELD CURVE
+2–3 sentences. Explain what the bond market is actually pricing in today. Is the curve steepening or flattening, and why does that matter? What does the rate move signal about where the market thinks the economy is going?
 
 ## DEALS & CORPORATE
-2–3 sentences. Earnings beats/misses, notable M&A, IPO activity, guidance changes. If none in articles, say "No major deal activity in today's feed."
+2 sentences. Cover earnings, M&A, or notable guidance. What does this tell us about the health of the underlying sector or economy? If no deal news, say so plainly.
 
-## AI & TECH IN FINANCE
-2 sentences. Any AI story touching banks, trading desks, or fintech. If none, say "No major AI-finance stories today."
+## WATCH TOMORROW
+1 sentence. The single most important data release, event, or risk for tomorrow's session. Be specific — name the actual event if you know it.
 
-## ONE THING FOR TOMORROW
-1 sentence. The single most important event, data release, or risk for tomorrow's trading session.
-
-Keep total under 420 words. Write like a human analyst, not a chatbot."""
+Keep total under 450 words. Write like a thoughtful human analyst — complete sentences, no bullet-within-bullet nesting, no corporate filler."""
 
     try:
         r = requests.post(
@@ -265,8 +263,8 @@ Keep total under 420 words. Write like a human analyst, not a chatbot."""
             json={
                 "model": "llama-3.3-70b-versatile",
                 "messages": [{"role": "user", "content": prompt}],
-                "max_tokens": 650,
-                "temperature": 0.25,
+                "max_tokens": 700,
+                "temperature": 0.2,
             },
             timeout=30,
         )
@@ -279,87 +277,313 @@ Keep total under 420 words. Write like a human analyst, not a chatbot."""
         return ""
 
 
-# ── HTML Rendering ────────────────────────────────────────────────────────────
+# ── Design System ─────────────────────────────────────────────────────────────
+# Pure dark, warm grays, restrained color — Bloomberg meets The Economist
 
-SHARED_CSS = """
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f172a;color:#e2e8f0;max-width:700px;margin:0 auto;padding:16px;}
-.hdr{background:linear-gradient(135deg,#1e3a5f 0%,#0f2d4a 100%);border-radius:14px;padding:18px 20px;margin-bottom:12px}
-.hdr-row{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.hdr-title{font-size:19px;font-weight:700;color:#93c5fd}
-.hdr-sub{font-size:12px;color:#64748b;margin-top:4px}
-.nav-btns{display:flex;gap:6px;flex-shrink:0}
-.nav-btn{background:#1e3a5f;color:#93c5fd;border:1px solid #2d5a8e;border-radius:8px;padding:5px 11px;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap;}
-.nav-btn:hover{background:#2d5a8e}
-.nav-btn.dim{color:#475569;border-color:#1e293b;pointer-events:none}
-.card{background:#1e293b;border-radius:12px;padding:16px;margin-bottom:12px}
-.section-label{font-size:10px;font-weight:700;color:#475569;letter-spacing:1.2px;text-transform:uppercase;margin:14px 0 6px}
-.section-label:first-child{margin-top:0}
-table{width:100%;border-collapse:collapse}
-.mn{padding:6px 0;color:#94a3b8;font-size:13px}
-.mv{padding:6px 0;text-align:right;font-weight:600;font-size:14px;font-variant-numeric:tabular-nums}
-.mc{padding:6px 0;text-align:right;font-size:12px;width:76px}
-.vix-note{margin-top:8px;font-size:11px;color:#475569;border-top:1px solid #334155;padding-top:8px}
-.ai-section{background:#1e293b;border-radius:12px;padding:16px;margin-bottom:10px}
-.ai-section h3{font-size:10px;font-weight:700;color:#64748b;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:9px;padding-bottom:6px;border-bottom:1px solid #334155}
-.ai-section p{font-size:14px;line-height:1.65;color:#cbd5e1;margin-bottom:7px}
-.ai-section .bullet{border-left:2px solid #2d5a8e;padding-left:10px;margin-bottom:8px;color:#cbd5e1}
-.edge{background:linear-gradient(135deg,#14271f,#0d1f17);border:1px solid #166534;border-radius:12px;padding:16px;margin-bottom:12px}
-.elabel{font-size:10px;color:#4ade80;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:5px}
-.etitle{font-size:15px;font-weight:700;color:#86efac;margin-bottom:7px}
-.ebody{font-size:13px;color:#a7f3d0;line-height:1.65}
-.artcard{background:#1e293b;border-radius:12px;padding:14px 16px;margin-bottom:12px}
-.art-item{padding:11px 0;border-bottom:1px solid #1e293b}
-.art-item:not(:last-child){border-bottom:1px solid #334155}
-.art-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
-.stag{display:inline-block;background:#172d47;color:#60a5fa;font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;letter-spacing:.3px}
-.art-title{font-size:14px;color:#e2e8f0;font-weight:500;line-height:1.4;margin-bottom:5px}
-.art-snippet{font-size:12px;color:#64748b;line-height:1.5;margin-bottom:6px}
-.read-link{font-size:12px;color:#60a5fa;text-decoration:none;font-weight:500}
-.read-link:hover{color:#93c5fd;text-decoration:underline}
-.footer{text-align:center;font-size:11px;color:#475569;padding:12px 0 4px}
+CSS = """
+:root {
+  --bg:        #0a0a0a;
+  --surface:   #111111;
+  --surface-2: #181818;
+  --border:    #222222;
+  --border-2:  #2a2a2a;
+  --text-1:    #f0f0f0;
+  --text-2:    #888888;
+  --text-3:    #444444;
+  --num:       #ffffff;
+  --up:        #4a7c59;
+  --down:      #8b4a4a;
+  --accent:    #5a8ab0;
+  --green-dim: #1a3328;
+  --green-txt: #7ab898;
+  --green-bdr: #2a4a3a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 15px; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text-1);
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Header ── */
+.hdr {
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  background: var(--surface);
+}
+.hdr-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.hdr-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.hdr-title { font-size: 22px; font-weight: 700; color: var(--text-1); letter-spacing: -0.3px; line-height: 1.2; }
+.hdr-sub { font-size: 12px; color: var(--text-2); margin-top: 5px; }
+.nav { display: flex; gap: 6px; flex-shrink: 0; margin-top: 2px; }
+.nav a, .nav span {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-2);
+  color: var(--text-2);
+  text-decoration: none;
+  white-space: nowrap;
+  background: var(--surface-2);
+}
+.nav a:hover { color: var(--text-1); border-color: var(--text-3); }
+.nav span { opacity: 0.35; pointer-events: none; }
+
+/* ── Market Snapshot ── */
+.mkt-wrap { margin-bottom: 16px; }
+.mkt-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; }
+
+/* Hero grid — 4 main numbers */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1px;
+}
+.hero-cell { background: var(--surface); padding: 14px 16px; }
+.hero-name { font-size: 11px; color: var(--text-2); margin-bottom: 6px; letter-spacing: 0.2px; }
+.hero-price {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--num);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+.hero-chg { font-size: 12px; margin-top: 5px; font-weight: 500; }
+.hero-chg.up   { color: var(--up); }
+.hero-chg.down { color: var(--down); }
+.hero-chg.flat { color: var(--text-3); }
+
+/* Secondary table */
+.sec-table-wrap {
+  border: 1px solid var(--border);
+  border-radius: 0 0 12px 12px;
+  border-top: none;
+  background: var(--surface);
+  overflow: hidden;
+}
+.sec-section-hd {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 8px 16px 4px;
+  background: var(--surface-2);
+  border-top: 1px solid var(--border);
+}
+.sec-section-hd:first-child { border-top: 1px solid var(--border); }
+table.sec { width: 100%; border-collapse: collapse; }
+table.sec td { padding: 7px 16px; font-size: 13px; }
+table.sec tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
+.sn { color: var(--text-2); width: 50%; }
+.sv { text-align: right; font-weight: 600; color: var(--num); font-variant-numeric: tabular-nums; }
+.sc { text-align: right; width: 72px; font-size: 12px; font-weight: 500; }
+.sc.up   { color: var(--up); }
+.sc.down { color: var(--down); }
+.sc.flat { color: var(--text-3); }
+.vix-bar {
+  margin: 0;
+  padding: 10px 16px;
+  font-size: 11px;
+  color: var(--text-3);
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 0 0 11px 11px;
+}
+
+/* ── Analysis Sections ── */
+.analysis { margin-bottom: 16px; }
+.section-block {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.section-block:last-child { margin-bottom: 0; }
+.section-hd {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+.section-body { padding: 14px 16px; }
+.section-body p {
+  font-size: 14px;
+  line-height: 1.72;
+  color: #d8d8d8;
+  margin-bottom: 10px;
+}
+.section-body p:last-child { margin-bottom: 0; }
+.section-body .bullet {
+  padding-left: 12px;
+  border-left: 2px solid var(--border-2);
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #d0d0d0;
+}
+.section-body .bullet:last-child { margin-bottom: 0; }
+
+/* ── Edge Topic ── */
+.edge {
+  border: 1px solid var(--green-bdr);
+  border-radius: 12px;
+  background: var(--green-dim);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.edge-hd {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #4a8a68;
+  padding: 11px 16px 9px;
+  border-bottom: 1px solid var(--green-bdr);
+}
+.edge-body { padding: 14px 16px; }
+.edge-title { font-size: 15px; font-weight: 700; color: var(--green-txt); margin-bottom: 8px; letter-spacing: -0.1px; }
+.edge-text { font-size: 13px; color: #7aaa8a; line-height: 1.68; }
+
+/* ── Articles ── */
+.articles {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.articles-hd {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+.art {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.art:last-child { border-bottom: none; }
+.art-source {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 5px;
+}
+.art-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-1);
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+.art-snippet {
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+.art-link {
+  font-size: 12px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+}
+.art-link:hover { color: var(--text-1); }
+
+/* ── Footer ── */
+.footer {
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-3);
+  padding: 16px 0 8px;
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+  line-height: 1.6;
+}
+
+/* ── Mobile ── */
+@media (max-width: 420px) {
+  body { padding: 12px; }
+  .hero-price { font-size: 19px; }
+  .hero-cell { padding: 12px 14px; }
+}
 """
+
+
+def chg_class(pct) -> str:
+    if pct is None or pct == 0:
+        return "flat"
+    return "up" if pct > 0 else "down"
 
 
 def format_summary_html(summary: str) -> str:
     if not summary:
-        return '<div class="ai-section"><p style="color:#64748b;">Summary unavailable. See articles below.</p></div>'
+        return ('<div class="section-block">'
+                '<div class="section-hd">Analysis</div>'
+                '<div class="section-body"><p style="color:var(--text-3)">Summary unavailable — see articles below.</p></div>'
+                '</div>')
 
-    html = ""
-    in_block = False
+    blocks = []
+    current_title = None
+    current_lines = []
+
     for line in summary.splitlines():
         line = line.strip()
         if not line:
             continue
         if line.startswith("## "):
-            if in_block:
-                html += "</div>\n"
-            html += f'<div class="ai-section"><h3>{line[3:].strip()}</h3>\n'
-            in_block = True
-        elif line.startswith(("• ", "- ", "* ")):
-            html += f'<p class="bullet">→ {line[2:].strip()}</p>\n'
+            if current_title is not None:
+                blocks.append((current_title, current_lines))
+            current_title = line[3:].strip()
+            current_lines = []
         else:
-            html += f'<p>{line}</p>\n'
-    if in_block:
-        html += "</div>\n"
+            current_lines.append(line)
+
+    if current_title is not None:
+        blocks.append((current_title, current_lines))
+
+    html = '<div class="analysis">'
+    for title, lines in blocks:
+        inner = ""
+        for line in lines:
+            if line.startswith(("• ", "- ", "* ")):
+                inner += f'<p class="bullet">{line[2:].strip()}</p>\n'
+            else:
+                inner += f'<p>{line}</p>\n'
+        html += (f'<div class="section-block">'
+                 f'<div class="section-hd">{title}</div>'
+                 f'<div class="section-body">{inner}</div>'
+                 f'</div>\n')
+    html += '</div>'
     return html
-
-
-def mrow(name: str, data: dict) -> str:
-    d = data.get(name, {})
-    # Rates and FX are neutral color; equities green/red; others grey
-    section = d.get("section", "")
-    if section == "US Rates" or section == "FX":
-        color = "#94a3b8"
-    elif section == "Vol & Crypto" and name == "VIX":
-        color = "#f59e0b"
-    else:
-        color = "#4ade80" if d.get("positive", True) else "#f87171"
-    return (
-        f'<tr><td class="mn">{name}</td>'
-        f'<td class="mv">{d.get("display","N/A")}</td>'
-        f'<td class="mc" style="color:{color}">{d.get("chg","—")}</td></tr>'
-    )
 
 
 def render_digest(market_data: dict, summary: str, articles: list,
@@ -368,83 +592,115 @@ def render_digest(market_data: dict, summary: str, articles: list,
     edge_name, edge_body = EDGE_TOPICS.get(WEEKDAY, ("Weekend Review", "Reflect on the week's key themes."))
     summary_html = format_summary_html(summary)
 
+    # Nav
+    prev_btn = (f'<a href="{prev_date}.html">← {prev_date}</a>' if prev_date
+                else '<span>← older</span>')
+    next_btn = (f'<a href="{next_date}.html">{next_date} →</a>' if next_date
+                else ('<a href="index.html">Today →</a>' if not is_today
+                      else '<span>latest →</span>'))
+
+    # Hero grid — 4 big numbers
+    hero_names = ["S&P 500", "Nasdaq 100", "VIX", "10yr Yield"]
+    hero_cells = ""
+    for name in hero_names:
+        d   = market_data.get(name, {})
+        cls = chg_class(d.get("pct"))
+        hero_cells += (
+            f'<div class="hero-cell">'
+            f'<div class="hero-name">{name}</div>'
+            f'<div class="hero-price">{d.get("display","—")}</div>'
+            f'<div class="hero-chg {cls}">{d.get("chg","—")}</div>'
+            f'</div>'
+        )
+
+    # Secondary table by section
+    sec_order = ["US Equities", "US Rates", "FX", "Commodities", "Crypto"]
+    sec_html = ""
+    for sec in sec_order:
+        rows = [(sym, lbl, sect, hero)
+                for sym, lbl, sect, hero in MARKET_SYMBOLS
+                if sect == sec]
+        if not rows:
+            continue
+        sec_html += f'<div class="sec-section-hd">{sec}</div><table class="sec">'
+        for _, name, _, _ in rows:
+            d   = market_data.get(name, {})
+            cls = chg_class(d.get("pct"))
+            sec_html += (
+                f'<tr>'
+                f'<td class="sn">{name}</td>'
+                f'<td class="sv">{d.get("display","—")}</td>'
+                f'<td class="sc {cls}">{d.get("chg","—")}</td>'
+                f'</tr>'
+            )
+        sec_html += '</table>'
+
     vix_val  = market_data.get("VIX", {}).get("price")
-    vix_mood = "elevated — markets are nervous" if vix_val and vix_val > 20 else "calm — low fear"
+    vix_note = "VIX elevated — options market is pricing meaningful near-term risk." if vix_val and vix_val > 20 else "VIX subdued — markets are calm, implied volatility is low."
 
-    # Nav buttons
-    prev_btn = (f'<a href="{prev_date}.html" class="nav-btn">← {prev_date}</a>' if prev_date
-                else '<span class="nav-btn dim">← older</span>')
-    next_btn = (f'<a href="{next_date}.html" class="nav-btn">{next_date} →</a>' if next_date
-                else ('<a href="index.html" class="nav-btn">Today →</a>' if not is_today
-                      else '<span class="nav-btn dim">latest →</span>'))
-
-    # Articles HTML — each card with title, snippet, and "Read full article →"
-    art_items = ""
+    # Articles
+    art_html = ""
     for a in articles[:12]:
-        snippet_html = f'<div class="art-snippet">{a["snippet"][:220]}…</div>' if a.get("snippet") else ""
-        read_link    = (f'<a href="{a["url"]}" target="_blank" rel="noopener" class="read-link">Read full article →</a>'
-                        if a.get("url") else "")
-        art_items += f"""<div class="art-item">
-  <div class="art-meta"><span class="stag">{a['source'][:20]}</span></div>
-  <div class="art-title">{a['title']}</div>
-  {snippet_html}
-  {read_link}
-</div>\n"""
-
-    # Market table by section
-    sections_order = ["US Equities", "US Rates", "FX", "Commodities", "Vol & Crypto"]
-    mkt_html = ""
-    for sec in sections_order:
-        names_in_sec = [n for n, s, _, _ in [(sym, d["section"], None, None)
-                        for sym, lbl, sec2, _ in MARKET_SYMBOLS
-                        for n, d in [(lbl, market_data.get(lbl, {}))]
-                        if d.get("section") == sec]]
-        # simpler approach
-        names_in_sec = [lbl for _, lbl, sec2, _ in MARKET_SYMBOLS if sec2 == sec]
-        rows = "".join(mrow(n, market_data) for n in names_in_sec)
-        mkt_html += f'<div class="section-label">{sec}</div><table>{rows}</table>\n'
+        snippet = f'<div class="art-snippet">{a["snippet"][:280]}…</div>' if a.get("snippet") else ""
+        link    = (f'<a href="{a["url"]}" target="_blank" rel="noopener" class="art-link">Read full article →</a>'
+                   if a.get("url") else "")
+        art_html += (
+            f'<div class="art">'
+            f'<div class="art-source">{a["source"][:22]}</div>'
+            f'<div class="art-title">{a["title"]}</div>'
+            f'{snippet}'
+            f'{link}'
+            f'</div>'
+        )
 
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0a0a0a">
 <title>Finance Digest — {DATE_STR}</title>
-<style>{SHARED_CSS}</style>
+<style>{CSS}</style>
 </head>
 <body>
 
 <div class="hdr">
   <div class="hdr-row">
     <div>
-      <div class="hdr-title">Finance Digest</div>
-      <div class="hdr-sub">{DATE_STR} &nbsp;·&nbsp; {WEEKDAY} &nbsp;·&nbsp; US Market Close</div>
+      <div class="hdr-eyebrow">Finance Digest</div>
+      <div class="hdr-title">{DATE_STR}</div>
+      <div class="hdr-sub">{WEEKDAY} &nbsp;·&nbsp; US Market Close &nbsp;·&nbsp; 4:00 PM ET</div>
     </div>
-    <div class="nav-btns">
+    <nav class="nav">
       {prev_btn}
-      <a href="archive.html" class="nav-btn">📚</a>
+      <a href="archive.html" title="Archive">☰</a>
       {next_btn}
-    </div>
+    </nav>
   </div>
 </div>
 
-<div class="card">
-  <div class="section-label" style="margin-top:0">📊 Market Snapshot</div>
-  {mkt_html}
-  <div class="vix-note">VIX {market_data.get("VIX",{}).get("display","—")} — {vix_mood}</div>
+<div class="mkt-wrap">
+  <div class="mkt-label">Market Snapshot</div>
+  <div class="hero-grid">{hero_cells}</div>
+  <div class="sec-table-wrap">
+    {sec_html}
+    <div class="vix-bar">{vix_note}</div>
+  </div>
 </div>
 
 {summary_html}
 
 <div class="edge">
-  <div class="elabel">💡 Today's Edge — {WEEKDAY}</div>
-  <div class="etitle">{edge_name}</div>
-  <div class="ebody">{edge_body}</div>
+  <div class="edge-hd">Today's Edge — {WEEKDAY}</div>
+  <div class="edge-body">
+    <div class="edge-title">{edge_name}</div>
+    <div class="edge-text">{edge_body}</div>
+  </div>
 </div>
 
-<div class="artcard">
-  <div class="section-label" style="margin-top:0">📰 Source Articles — tap to read full</div>
-  {art_items}
+<div class="articles">
+  <div class="articles-hd">Source Articles — tap to read in full</div>
+  {art_html}
 </div>
 
 <div class="footer">
@@ -469,33 +725,40 @@ def build_archive() -> None:
             d       = datetime.date.fromisoformat(date_str)
             label   = d.strftime("%B %d, %Y")
             weekday = d.strftime("%A")
-            badge   = (' <span style="background:#1e3a5f;color:#93c5fd;font-size:10px;'
-                       'padding:2px 7px;border-radius:10px;margin-left:6px">today</span>'
-                       if date_str == TODAY.isoformat() else "")
+            is_today = date_str == TODAY.isoformat()
         except ValueError:
-            label, weekday, badge = date_str, "", ""
+            label, weekday, is_today = date_str, "", False
 
-        items += f"""<a href="{date_str}.html" class="dlink">
-  <span class="dday">{weekday}</span>
-  <span class="dlabel">{label}{badge}</span>
-  <span class="darrow">→</span>
-</a>\n"""
+        today_tag = (' <span style="font-size:10px;color:var(--accent);font-weight:700;letter-spacing:.5px">TODAY</span>'
+                     if is_today else "")
+        items += (
+            f'<a href="{date_str}.html" class="dlink">'
+            f'<span class="dday">{weekday}</span>'
+            f'<span class="dlabel">{label}{today_tag}</span>'
+            f'<span class="darrow">→</span>'
+            f'</a>\n'
+        )
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0a0a0a">
 <title>Finance Digest — Archive</title>
 <style>
-{SHARED_CSS}
-.dlink{{display:flex;align-items:center;gap:10px;padding:13px 0;border-bottom:1px solid #334155;text-decoration:none}}
-.dlink:last-child{{border-bottom:none}}
-.dlink:hover .dlabel{{color:#93c5fd}}
-.dday{{font-size:11px;color:#475569;width:68px;flex-shrink:0}}
-.dlabel{{font-size:14px;color:#cbd5e1;font-weight:500;flex:1}}
-.darrow{{font-size:13px;color:#334155}}
-.dlink:hover .darrow{{color:#60a5fa}}
+{CSS}
+.dlink {{
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 16px; border-bottom: 1px solid var(--border);
+  text-decoration: none; color: var(--text-1);
+}}
+.dlink:last-child {{ border-bottom: none; }}
+.dlink:hover {{ background: var(--surface-2); }}
+.dlink:hover .darrow {{ color: var(--text-2); }}
+.dday {{ font-size: 11px; color: var(--text-3); width: 68px; flex-shrink: 0; }}
+.dlabel {{ font-size: 14px; color: var(--text-2); flex: 1; font-weight: 500; }}
+.darrow {{ font-size: 12px; color: var(--border-2); }}
 </style>
 </head>
 <body>
@@ -503,18 +766,18 @@ def build_archive() -> None:
 <div class="hdr">
   <div class="hdr-row">
     <div>
-      <div class="hdr-title">📚 Digest Archive</div>
+      <div class="hdr-eyebrow">Finance Digest</div>
+      <div class="hdr-title">Archive</div>
       <div class="hdr-sub">{total} digest{"s" if total != 1 else ""} saved</div>
     </div>
-    <a href="index.html" class="nav-btn">← Today</a>
+    <nav class="nav"><a href="index.html">← Today</a></nav>
   </div>
 </div>
 
-<div class="card">
+<div style="border:1px solid var(--border);border-radius:12px;background:var(--surface);overflow:hidden;margin-bottom:16px;">
 {items}</div>
 
-<div class="footer">Tap any date to read that day's digest</div>
-
+<div class="footer">Tap any date to read that day's full digest</div>
 </body>
 </html>"""
 
@@ -534,10 +797,8 @@ def notify(market_data: dict) -> None:
     vix = market_data.get("VIX",        {})
     tnx = market_data.get("10yr Yield", {})
 
-    body = (
-        f"S&P {sp.get('chg','—')} | NDX {ndx.get('chg','—')} | "
-        f"VIX {vix.get('display','—')} | 10yr {tnx.get('display','—')}%"
-    )
+    body = (f"S&P {sp.get('chg','—')} · NDX {ndx.get('chg','—')} · "
+            f"VIX {vix.get('display','—')} · 10yr {tnx.get('display','—')}%")
 
     try:
         r = requests.post(
@@ -569,33 +830,25 @@ def main() -> None:
     articles = dedupe(fetch_newsapi() + fetch_rss())
     print(f"  Total unique articles: {len(articles)}")
 
-    print("[3/4] Summarizing...")
+    print("[3/4] Summarizing (with cause & effect)...")
     summary = summarize(articles, market_data)
 
-    print("[4/4] Rendering + saving...")
+    print("[4/4] Rendering...")
     Path("docs").mkdir(exist_ok=True)
     docs = Path("docs")
 
-    # Get sorted list of existing dated files for prev/next nav
-    existing = sorted([f.stem for f in docs.glob("????-??-??.html")])
-    today_str = TODAY.isoformat()
-
-    # Add today to the list if not already there (for nav calc)
-    if today_str not in existing:
-        existing_with_today = sorted(existing + [today_str])
-    else:
-        existing_with_today = existing
-
-    idx      = existing_with_today.index(today_str)
-    prev_date = existing_with_today[idx - 1] if idx > 0 else ""
-    next_date = existing_with_today[idx + 1] if idx < len(existing_with_today) - 1 else ""
+    existing     = sorted([f.stem for f in docs.glob("????-??-??.html")])
+    today_str    = TODAY.isoformat()
+    with_today   = sorted(set(existing + [today_str]))
+    idx          = with_today.index(today_str)
+    prev_date    = with_today[idx - 1] if idx > 0 else ""
+    next_date    = with_today[idx + 1] if idx < len(with_today) - 1 else ""
 
     html = render_digest(market_data, summary, articles, prev_date, next_date, is_today=True)
 
-    dated_path = docs / f"{today_str}.html"
-    dated_path.write_text(html, encoding="utf-8")
+    (docs / f"{today_str}.html").write_text(html, encoding="utf-8")
     (docs / "index.html").write_text(html, encoding="utf-8")
-    print(f"  Wrote {dated_path.name} + index.html")
+    print(f"  Wrote {today_str}.html + index.html")
 
     build_archive()
     notify(market_data)
