@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
 Daily Finance Digest — IB-grade market close briefing.
-Triggers at 4 PM ET / 9:30 PM IST via GitHub Actions.
+Triggers at 9 PM EDT (01:00 UTC) via GitHub Actions, daily.
 """
 
+import json
 import os
 import re
 import time
@@ -40,11 +41,12 @@ EDGE_TOPICS = {
         "Wall Street uses to validate or challenge the AI trade. The answer will define valuations for years.",
     ),
     "Wednesday": (
-        "India & Southeast Asia Capital Flows",
-        "India's equity market crossed $4T in market cap. FII inflows, the manufacturing shift from China, and a "
-        "600M+ growing middle class are creating a multi-decade structural story. Key sectors: infrastructure, "
-        "financials, consumer discretionary. Southeast Asia (Vietnam, Indonesia) is the supply chain beneficiary. "
-        "This is where long-duration EM capital is moving — and it matters for every global macro conversation.",
+        "Canadian Economy & Bank of Canada",
+        "Canada's economy is uniquely exposed to US trade policy, commodity cycles, and a heavily indebted consumer. "
+        "The Bank of Canada often diverges from the Fed — when it does, CAD/USD moves and cross-border capital flows "
+        "become the trade. Canadian banks (RBC, TD, BMO) are systemically important and proxy for housing health. "
+        "For anyone in Toronto finance, understanding BoC policy vs Fed policy divergence is a core skill — it "
+        "shows up in every rate desk, currency desk, and fixed income role at Bay Street firms.",
     ),
     "Thursday": (
         "Sovereign Debt Stress",
@@ -275,6 +277,191 @@ Keep total under 450 words. Write like a thoughtful human analyst — complete s
     except Exception as e:
         print(f"  [groq] Failed: {e}")
         return ""
+
+
+# ── LinkedIn Editorial Series ──────────────────────────────────────────────────
+
+CATEGORIES = {
+    "rates_fed":      "Rates & The Fed — interest rate policy, yield curve, inflation, FOMC decisions",
+    "private_credit": "Private Credit — direct lending, CLOs, shadow banking, non-bank lenders, credit spreads",
+    "ai_capex":       "AI & Capital — hyperscaler spending, AI capex vs ROI, tech valuations, AI in finance",
+    "macro_risk":     "Macro Risk — tariffs, trade wars, geopolitical events affecting markets, sovereign debt",
+}
+
+CHRONICLE_PATH = Path("docs/chronicle.json")
+
+
+def load_chronicle() -> list:
+    if CHRONICLE_PATH.exists():
+        try:
+            return json.loads(CHRONICLE_PATH.read_text(encoding="utf-8"))
+        except Exception:
+            return []
+    return []
+
+
+def last_post_in_category(chronicle: list, category: str) -> dict | None:
+    for entry in reversed(chronicle):
+        if entry.get("category") == category:
+            return entry
+    return None
+
+
+def pick_story(articles: list, chronicle: list) -> dict:
+    """Two-step: Groq picks the best category + story before we write."""
+    if not GROQ_API_KEY:
+        return {}
+
+    cat_block = "\n".join(f"- {k}: {v}" for k, v in CATEGORIES.items())
+    art_block = "\n\n".join(
+        f"[{i+1}] {a['source'].upper()}: {a['title']}\n{a['snippet'][:300]}"
+        for i, a in enumerate(articles[:20])
+    )
+
+    recent: dict[str, str] = {}
+    for entry in reversed(chronicle[-20:]):
+        cat = entry.get("category", "")
+        if cat and cat not in recent:
+            recent[cat] = entry.get("date", "")
+    history_block = (
+        "\n".join(f"- {k}: last written {v}" for k, v in recent.items())
+        if recent else "No prior posts yet."
+    )
+
+    prompt = f"""You are an editorial assistant for a student finance content series. Pick ONE story to write about today.
+
+FIXED CATEGORIES (pick exactly one key):
+{cat_block}
+
+RECENT HISTORY (avoid repeating the same category two days in a row if possible):
+{history_block}
+
+TODAY'S ARTICLES:
+{art_block}
+
+Pick the single most interesting, substantive story that fits one of the four categories. Prioritize:
+1. Stories with real data or numbers
+2. Structural trends, not just one-day events
+3. Stories a finance student aiming for investment banking would genuinely care about
+
+Respond with ONLY valid JSON, no explanation, no markdown:
+{{"category": "<category key>", "story_headline": "<headline>", "story_summary": "<2-3 sentences: what happened and why it matters>", "key_data_point": "<one specific number or figure from the story>"}}"""
+
+    try:
+        r = requests.post(
+            "https://api.groq.com/openai/v1/chat/completions",
+            headers={"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"},
+            json={
+                "model": "llama-3.3-70b-versatile",
+                "messages": [{"role": "user", "content": prompt}],
+                "max_tokens": 300,
+                "temperature": 0.1,
+            },
+            timeout=30,
+        )
+        r.raise_for_status()
+        raw = r.json()["choices"][0]["message"]["content"].strip()
+        match = re.search(r'\{.*\}', raw, re.DOTALL)
+        if match:
+            picked = json.loads(match.group())
+            print(f"  [groq] Story picked: [{picked.get('category')}] {picked.get('story_headline', '')[:60]}")
+            return picked
+    except Exception as e:
+        print(f"  [groq] pick_story failed: {e}")
+    return {}
+
+
+def generate_linkedin_post(story: dict, chronicle: list) -> str:
+    """Write the post in Subhankar's voice, with series framing and category callbacks."""
+    if not GROQ_API_KEY or not story:
+        return ""
+
+    category  = story.get("category", "")
+    cat_label = CATEGORIES.get(category, category)
+    headline  = story.get("story_headline", "")
+    summary   = story.get("story_summary", "")
+    key_data  = story.get("key_data_point", "")
+    post_count = len(chronicle) + 1  # this post will be #post_count
+
+    prior = last_post_in_category(chronicle, category)
+    prior_block = ""
+    if prior:
+        prior_block = f"""PRIOR POST IN THIS SERIES ({prior['date']}):
+Angle covered: {prior.get('angle', '')}
+Key claim: {prior.get('key_claim', '')}
+
+If it flows naturally, reference this ("following up on something from {prior['date']}...", "been tracking this since...", "this connects back to what i wrote about..."). Don't force it if it doesn't fit today's angle."""
+
+    if post_count == 1:
+        series_context = """SERIES CONTEXT: This is post #1 — the very start of the series. Open with 1-2 casual lines before the main story: something like "starting something i've been meaning to do for a while — tracking markets daily and writing about the one thing that actually matters each day. kicking it off with [topic]." Keep it brief and genuine, then go into the story."""
+    elif post_count <= 10:
+        series_context = f"SERIES CONTEXT: Post #{post_count} — series is still early, a few weeks in. No need to mention it unless natural."
+    else:
+        series_context = f"SERIES CONTEXT: Post #{post_count} — series is established. Just write the post."
+
+    prompt = f"""You are ghostwriting a LinkedIn post for Subhankar — a 3rd-year Rotman Commerce student (finance + economics at UofT). He tracks markets the way an IB analyst would, shares what he's learning, and is building a presence before he graduates. The frame is always: i saw this, here's how i'm thinking about it. Discovery-driven, not authority-driven.
+
+{series_context}
+
+TOPIC: {cat_label}
+TODAY'S STORY: {headline}
+WHAT HAPPENED: {summary}
+KEY DATA POINT (use this): {key_data}
+
+{prior_block}
+
+VOICE:
+- lowercase i throughout — always
+- chains thoughts with "and" not semicolons or em-dashes
+- natural spacers: "or something", "and all that", "which is kind of wild", "kind of"
+- one noticeably short sentence — acts as a punch line
+- observation frame: "caught my eye", "been watching this", "this is the thing that..."
+- student framing as a credential not a disclaimer: "ran the numbers on this", "been tracking this in my models", "trying to understand this the way you would in banking"
+
+STRUCTURE:
+- opening sentence: a claim or observation (NOT a question, NOT starting with "Today...")
+- 2 short paragraphs, one can be a single sentence
+- weave the key data point in naturally — don't lead with it
+- end casually — trail off into the next thought, not a call to action
+- 180–220 words total
+- no hashtags
+
+FORBIDDEN — no exceptions:
+delve into / at its core / it's important to note / furthermore / moreover / in conclusion / to summarize / navigate / landscape / ecosystem / leverage (verb) / excited to share / thrilled to announce / em-dashes / "What do you think?" / "Thoughts?" / "agree?" / hashtags
+
+Output only the post text. Nothing else."""
+
+    try:
+        r = requests.post(
+            "https://api.groq.com/openai/v1/chat/completions",
+            headers={"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"},
+            json={
+                "model": "llama-3.3-70b-versatile",
+                "messages": [{"role": "user", "content": prompt}],
+                "max_tokens": 450,
+                "temperature": 0.7,
+            },
+            timeout=30,
+        )
+        r.raise_for_status()
+        return r.json()["choices"][0]["message"]["content"].strip()
+    except Exception as e:
+        print(f"  [groq] generate_linkedin_post failed: {e}")
+        return ""
+
+
+def append_chronicle(chronicle: list, story: dict, post_text: str) -> None:
+    entry = {
+        "date":         TODAY.isoformat(),
+        "category":     story.get("category", ""),
+        "headline":     story.get("story_headline", ""),
+        "angle":        story.get("story_summary", "")[:150],
+        "key_claim":    story.get("key_data_point", ""),
+        "post_preview": post_text[:200],
+    }
+    chronicle.append(entry)
+    CHRONICLE_PATH.write_text(json.dumps(chronicle, indent=2, ensure_ascii=False), encoding="utf-8")
+    print("  chronicle.json updated")
 
 
 # ── Design System ─────────────────────────────────────────────────────────────
@@ -818,6 +1005,31 @@ def notify(market_data: dict) -> None:
         print(f"  [notify] Failed: {e}")
 
 
+def notify_linkedin(post_text: str, story: dict) -> None:
+    """Second Bark push: tap to copy the full post to clipboard."""
+    if not BARK_KEY or not post_text:
+        return
+    category  = story.get("category", "")
+    cat_label = CATEGORIES.get(category, "Finance").split("—")[0].strip()
+    preview   = post_text[:140].rsplit(" ", 1)[0] + "…"
+    try:
+        r = requests.post(
+            "https://api.day.app/push",
+            json={
+                "device_key": BARK_KEY,
+                "title":      f"Post this on LinkedIn [{cat_label}]",
+                "body":       preview,
+                "copy":       post_text,
+                "sound":      "telegraph",
+            },
+            timeout=10,
+        )
+        r.raise_for_status()
+        print("  [notify] LinkedIn post notification sent (tap to copy)")
+    except Exception as e:
+        print(f"  [notify] LinkedIn notify failed: {e}")
+
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main() -> None:
@@ -849,6 +1061,19 @@ def main() -> None:
     (docs / f"{today_str}.html").write_text(html, encoding="utf-8")
     (docs / "index.html").write_text(html, encoding="utf-8")
     print(f"  Wrote {today_str}.html + index.html")
+
+    print("[4b/4] Writing LinkedIn post...")
+    chronicle = load_chronicle()
+    story = pick_story(articles, chronicle)
+    if story:
+        post = generate_linkedin_post(story, chronicle)
+        if post:
+            (docs / "linkedin_post.txt").write_text(post, encoding="utf-8")
+            print("  linkedin_post.txt written")
+            append_chronicle(chronicle, story, post)
+            notify_linkedin(post, story)
+    else:
+        print("  [skip] No story selected")
 
     build_archive()
     notify(market_data)

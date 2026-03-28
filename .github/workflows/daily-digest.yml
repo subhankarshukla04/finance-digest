@@ -2,7 +2,7 @@ name: Daily Finance Digest
 
 on:
   schedule:
-    - cron: '0 16 * * 1-5'   # 16:00 UTC = 9:30 PM IST = 4:00 PM ET (US market close)
+    - cron: '0 1 * * *'      # 01:00 UTC = 9:00 PM EDT (daily, including weekends)
   workflow_dispatch:           # manual trigger from Actions tab
 
 permissions:
