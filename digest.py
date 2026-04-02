@@ -92,11 +92,12 @@ MARKET_SYMBOLS = [
 ]
 
 RSS_FEEDS = [
-    ("The Economist",         "https://www.economist.com/finance-and-economics/rss.xml",                                               3),
-    ("CNBC Markets",          "https://www.cnbc.com/id/100003114/device/rss/rss.html",                                                4),
-    ("Google News — Markets", "https://news.google.com/rss/search?q=financial+markets+economy+fed+rates+treasury&hl=en-US&gl=US&ceid=US:en",  5),
-    ("Google News — Deals",   "https://news.google.com/rss/search?q=merger+acquisition+IPO+earnings+wall+street&hl=en-US&gl=US&ceid=US:en",   3),
-    ("Google News — AI/Banks","https://news.google.com/rss/search?q=AI+JPMorgan+Goldman+Sachs+Morgan+Stanley+banking&hl=en-US&gl=US&ceid=US:en",3),
+    ("The Economist",    "https://www.economist.com/finance-and-economics/rss.xml",          3),
+    ("CNBC Markets",     "https://www.cnbc.com/id/100003114/device/rss/rss.html",            4),
+    ("Reuters Business", "https://feeds.reuters.com/reuters/businessNews",                   5),
+    ("MarketWatch",      "https://feeds.marketwatch.com/marketwatch/topstories/",            4),
+    ("Financial Post",   "https://financialpost.com/feed",                                   3),
+    ("BNN Bloomberg",    "https://www.bnnbloomberg.ca/feed",                                 3),
 ]
 
 # ── Market Data Fetching ──────────────────────────────────────────────────────
@@ -162,6 +163,7 @@ def fetch_newsapi() -> list:
                 "language": "en",
                 "sortBy": "publishedAt",
                 "pageSize": 12,
+                "domains": "reuters.com,cnbc.com,bloomberg.com,wsj.com,ft.com,marketwatch.com,financialpost.com,bnnbloomberg.ca,theglobeandmail.com,economist.com,apnews.com,axios.com",
                 "apiKey": NEWS_API_KEY,
             },
             timeout=15,
