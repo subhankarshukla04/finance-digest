@@ -163,7 +163,6 @@ def fetch_newsapi() -> list:
                 "language": "en",
                 "sortBy": "publishedAt",
                 "pageSize": 12,
-                "domains": "reuters.com,cnbc.com,bloomberg.com,wsj.com,ft.com,marketwatch.com,financialpost.com,bnnbloomberg.ca,theglobeandmail.com,economist.com,apnews.com,axios.com",
                 "apiKey": NEWS_API_KEY,
             },
             timeout=15,
