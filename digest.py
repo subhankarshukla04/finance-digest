@@ -9,6 +9,7 @@ import os
 import re
 import time
 import datetime
+import zoneinfo
 from pathlib import Path
 
 import feedparser
@@ -21,7 +22,8 @@ NEWS_API_KEY = os.environ.get("NEWS_API_KEY", "")
 BARK_KEY     = os.environ.get("BARK_KEY", "")
 DIGEST_URL   = os.environ.get("DIGEST_URL", "https://subhankarshukla04.github.io/finance-digest")
 
-TODAY    = datetime.date.today()
+_toronto = zoneinfo.ZoneInfo("America/Toronto")
+TODAY    = datetime.datetime.now(_toronto).date()
 DATE_STR = TODAY.strftime("%B %d, %Y")
 WEEKDAY  = TODAY.strftime("%A")
 
@@ -716,6 +718,48 @@ table.sec tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   line-height: 1.6;
 }
 
+/* ── LinkedIn Post ── */
+.li-post {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.li-post-hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+.li-copy-btn {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
+  background: none;
+  border: 1px solid var(--border-2);
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.li-copy-btn:hover { color: var(--text-1); border-color: var(--text-3); }
+.li-post-body {
+  padding: 16px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #d8d8d8;
+  white-space: pre-wrap;
+}
+
 /* ── Mobile ── */
 @media (max-width: 420px) {
   body { padding: 12px; }
@@ -774,7 +818,8 @@ def format_summary_html(summary: str) -> str:
 
 
 def render_digest(market_data: dict, summary: str, articles: list,
-                  prev_date: str, next_date: str, is_today: bool) -> str:
+                  prev_date: str, next_date: str, is_today: bool,
+                  linkedin_post: str = "") -> str:
 
     edge_name, edge_body = EDGE_TOPICS.get(WEEKDAY, ("Weekend Review", "Reflect on the week's key themes."))
     summary_html = format_summary_html(summary)
@@ -840,6 +885,19 @@ def render_digest(market_data: dict, summary: str, articles: list,
             f'</div>'
         )
 
+    # LinkedIn post block
+    if linkedin_post:
+        escaped = linkedin_post.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
+        linkedin_html = f"""<div class="li-post">
+  <div class="li-post-hd">
+    <span>Today's LinkedIn Post</span>
+    <button class="li-copy-btn" onclick="navigator.clipboard.writeText(this.dataset.post);this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1800)" data-post="{escaped}">Copy</button>
+  </div>
+  <div class="li-post-body">{escaped}</div>
+</div>"""
+    else:
+        linkedin_html = ""
+
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -885,13 +943,15 @@ def render_digest(market_data: dict, summary: str, articles: list,
   </div>
 </div>
 
+{linkedin_html}
+
 <div class="articles">
   <div class="articles-hd">Source Articles — tap to read in full</div>
   {art_html}
 </div>
 
 <div class="footer">
-  Auto-generated at US market close &nbsp;·&nbsp; {DATE_STR}<br>
+  Auto-generated at market close · Toronto time &nbsp;·&nbsp; {DATE_STR}<br>
   Sources: NewsAPI · The Economist · CNBC · Google News
 </div>
 
@@ -1045,9 +1105,13 @@ def main() -> None:
     print("[3/4] Summarizing (with cause & effect)...")
     summary = summarize(articles, market_data)
 
-    print("[4/4] Rendering...")
+    print("[4/4] Generating LinkedIn post + rendering...")
     Path("docs").mkdir(exist_ok=True)
     docs = Path("docs")
+
+    chronicle = load_chronicle()
+    story     = pick_story(articles, chronicle)
+    post      = generate_linkedin_post(story, chronicle) if story else ""
 
     existing     = sorted([f.stem for f in docs.glob("????-??-??.html")])
     today_str    = TODAY.isoformat()
@@ -1056,23 +1120,19 @@ def main() -> None:
     prev_date    = with_today[idx - 1] if idx > 0 else ""
     next_date    = with_today[idx + 1] if idx < len(with_today) - 1 else ""
 
-    html = render_digest(market_data, summary, articles, prev_date, next_date, is_today=True)
+    html = render_digest(market_data, summary, articles, prev_date, next_date,
+                         is_today=True, linkedin_post=post)
 
     (docs / f"{today_str}.html").write_text(html, encoding="utf-8")
     (docs / "index.html").write_text(html, encoding="utf-8")
     print(f"  Wrote {today_str}.html + index.html")
 
-    print("[4b/4] Writing LinkedIn post...")
-    chronicle = load_chronicle()
-    story = pick_story(articles, chronicle)
-    if story:
-        post = generate_linkedin_post(story, chronicle)
-        if post:
-            (docs / "linkedin_post.txt").write_text(post, encoding="utf-8")
-            print("  linkedin_post.txt written")
-            append_chronicle(chronicle, story, post)
-            notify_linkedin(post, story)
-    else:
+    if story and post:
+        (docs / "linkedin_post.txt").write_text(post, encoding="utf-8")
+        print("  linkedin_post.txt written")
+        append_chronicle(chronicle, story, post)
+        notify_linkedin(post, story)
+    elif not story:
         print("  [skip] No story selected")
 
     build_archive()
