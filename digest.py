@@ -202,6 +202,12 @@ def fetch_rss() -> list:
     return articles
 
 
+_PREFERRED_SOURCES = {
+    "Reuters", "Reuters Business", "CNBC", "CNBC Markets", "MarketWatch",
+    "Financial Post", "BNN Bloomberg", "The Economist", "Bloomberg",
+    "Wall Street Journal", "Globe and Mail", "Associated Press", "Axios",
+}
+
 def dedupe(articles: list) -> list:
     seen, out = set(), []
     for a in articles:
@@ -209,6 +215,8 @@ def dedupe(articles: list) -> list:
         if key not in seen:
             seen.add(key)
             out.append(a)
+    # Float NA/EU sources to the top so the LLM sees them first
+    out.sort(key=lambda a: 0 if a.get("source", "") in _PREFERRED_SOURCES else 1)
     return out
 
 
@@ -342,10 +350,15 @@ RECENT HISTORY (avoid repeating the same category two days in a row if possible)
 TODAY'S ARTICLES:
 {art_block}
 
-Pick the single most interesting, substantive story that fits one of the four categories. Prioritize:
-1. Stories with real data or numbers
-2. Structural trends, not just one-day events
-3. Stories a finance student aiming for investment banking would genuinely care about
+Pick the single most interesting, substantive story that fits one of the four categories.
+
+PRIORITY ORDER:
+1. US or Canadian market stories — Fed, S&P, TSX, Wall Street deals, Bank of Canada
+2. Global or European stories with direct North American market impact
+3. Stories with real data or numbers
+4. Structural trends, not just one-day events
+
+AVOID: India-specific sector stories (Indian manufacturing, RBI, rupee, Indian banking) unless they have clear, measurable impact on North American or global markets. If a US/Canadian/European story of equal quality exists, always pick that instead.
 
 Respond with ONLY valid JSON, no explanation, no markdown:
 {{"category": "<category key>", "story_headline": "<headline>", "story_summary": "<2-3 sentences: what happened and why it matters>", "key_data_point": "<one specific number or figure from the story>"}}"""
@@ -414,23 +427,24 @@ KEY DATA POINT (use this): {key_data}
 {prior_block}
 
 VOICE:
-- lowercase i throughout — always
-- chains thoughts with "and" not semicolons or em-dashes
-- natural spacers: "or something", "and all that", "which is kind of wild", "kind of"
-- one noticeably short sentence — acts as a punch line
-- observation frame: "caught my eye", "been watching this", "this is the thing that..."
-- student framing as a credential not a disclaimer: "ran the numbers on this", "been tracking this in my models", "trying to understand this the way you would in banking"
+- lowercase i throughout, always
+- casual connective flow using "and", "so", "but" — not semicolons
+- occasional natural softeners: "or something", "kind of", "which is kind of wild"
+- one short punchy sentence somewhere in the middle or end
+- framed as discovery: "saw this", "caught my eye", "been watching this"
+- student perspective: curious, still figuring it out, not teaching anyone
 
 STRUCTURE:
-- opening sentence: a claim or observation (NOT a question, NOT starting with "Today...")
-- 2 short paragraphs, one can be a single sentence
-- weave the key data point in naturally — don't lead with it
-- end casually — trail off into the next thought, not a call to action
+- open with where you found it and what caught your attention — one sentence
+- explain what happened and why it matters in plain language
+- raise a genuine question or predict what to watch next
+- end with the article link on its own line
 - 180–220 words total
 - no hashtags
+- no dashes used as connectors or separators (no " - " or " — ")
 
-FORBIDDEN — no exceptions:
-delve into / at its core / it's important to note / furthermore / moreover / in conclusion / to summarize / navigate / landscape / ecosystem / leverage (verb) / excited to share / thrilled to announce / em-dashes / "What do you think?" / "Thoughts?" / "agree?" / hashtags
+FORBIDDEN — do not use any of these under any circumstances:
+delve into / at its core / it's important to note / furthermore / moreover / in conclusion / to summarize / navigate / landscape / ecosystem / leverage (verb) / excited to share / thrilled to announce / "What do you think?" / "Thoughts?" / "agree?" / hashtags / "the way you would in banking" / "running the numbers" / "tracking this in my models" / "and all that" used more than once
 
 Output only the post text. Nothing else."""
 
@@ -454,6 +468,9 @@ Output only the post text. Nothing else."""
 
 
 def append_chronicle(chronicle: list, story: dict, post_text: str) -> None:
+    if any(e.get("date") == TODAY.isoformat() for e in chronicle):
+        print("  chronicle: entry for today already exists, skipping duplicate")
+        return
     entry = {
         "date":         TODAY.isoformat(),
         "category":     story.get("category", ""),
