@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0a0a0a">
+<title>Finance Digest — October 22, 2026</title>
+<style>
+:root {
+  --bg:        #0a0a0a;
+  --surface:   #111111;
+  --surface-2: #181818;
+  --border:    #222222;
+  --border-2:  #2a2a2a;
+  --text-1:    #f0f0f0;
+  --text-2:    #888888;
+  --text-3:    #444444;
+  --num:       #ffffff;
+  --up:        #4a7c59;
+  --down:      #8b4a4a;
+  --accent:    #5a8ab0;
+  --green-dim: #1a3328;
+  --green-txt: #7ab898;
+  --green-bdr: #2a4a3a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 15px; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text-1);
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Header ── */
+.hdr {
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  background: var(--surface);
+}
+.hdr-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.hdr-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.hdr-title { font-size: 22px; font-weight: 700; color: var(--text-1); letter-spacing: -0.3px; line-height: 1.2; }
+.hdr-sub { font-size: 12px; color: var(--text-2); margin-top: 5px; }
+.nav { display: flex; gap: 6px; flex-shrink: 0; margin-top: 2px; }
+.nav a, .nav span {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-2);
+  color: var(--text-2);
+  text-decoration: none;
+  white-space: nowrap;
+  background: var(--surface-2);
+}
+.nav a:hover { color: var(--text-1); border-color: var(--text-3); }
+.nav span { opacity: 0.35; pointer-events: none; }
+
+/* ── Market Snapshot ── */
+.mkt-wrap { margin-bottom: 16px; }
+.mkt-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; }
+
+/* Hero grid — 4 main numbers */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1px;
+}
+.hero-cell { background: var(--surface); padding: 14px 16px; }
+.hero-name { font-size: 11px; color: var(--text-2); margin-bottom: 6px; letter-spacing: 0.2px; }
+.hero-price {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--num);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+.hero-chg { font-size: 12px; margin-top: 5px; font-weight: 500; }
+.hero-chg.up   { color: var(--up); }
+.hero-chg.down { color: var(--down); }
+.hero-chg.flat { color: var(--text-3); }
+
+/* Secondary table */
+.sec-table-wrap {
+  border: 1px solid var(--border);
+  border-radius: 0 0 12px 12px;
+  border-top: none;
+  background: var(--surface);
+  overflow: hidden;
+}
+.sec-section-hd {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 8px 16px 4px;
+  background: var(--surface-2);
+  border-top: 1px solid var(--border);
+}
+.sec-section-hd:first-child { border-top: 1px solid var(--border); }
+table.sec { width: 100%; border-collapse: collapse; }
+table.sec td { padding: 7px 16px; font-size: 13px; }
+table.sec tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
+.sn { color: var(--text-2); width: 50%; }
+.sv { text-align: right; font-weight: 600; color: var(--num); font-variant-numeric: tabular-nums; }
+.sc { text-align: right; width: 72px; font-size: 12px; font-weight: 500; }
+.sc.up   { color: var(--up); }
+.sc.down { color: var(--down); }
+.sc.flat { color: var(--text-3); }
+.vix-bar {
+  margin: 0;
+  padding: 10px 16px;
+  font-size: 11px;
+  color: var(--text-3);
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 0 0 11px 11px;
+}
+
+/* ── Analysis Sections ── */
+.analysis { margin-bottom: 16px; }
+.section-block {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.section-block:last-child { margin-bottom: 0; }
+.section-hd {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+.section-body { padding: 14px 16px; }
+.section-body p {
+  font-size: 14px;
+  line-height: 1.72;
+  color: #d8d8d8;
+  margin-bottom: 10px;
+}
+.section-body p:last-child { margin-bottom: 0; }
+.section-body .bullet {
+  padding-left: 12px;
+  border-left: 2px solid var(--border-2);
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #d0d0d0;
+}
+.section-body .bullet:last-child { margin-bottom: 0; }
+
+/* ── Edge Topic ── */
+.edge {
+  border: 1px solid var(--green-bdr);
+  border-radius: 12px;
+  background: var(--green-dim);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.edge-hd {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #4a8a68;
+  padding: 11px 16px 9px;
+  border-bottom: 1px solid var(--green-bdr);
+}
+.edge-body { padding: 14px 16px; }
+.edge-title { font-size: 15px; font-weight: 700; color: var(--green-txt); margin-bottom: 8px; letter-spacing: -0.1px; }
+.edge-text { font-size: 13px; color: #7aaa8a; line-height: 1.68; }
+
+/* ── Articles ── */
+.articles {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.articles-hd {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+.art {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.art:last-child { border-bottom: none; }
+.art-source {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 5px;
+}
+.art-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-1);
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+.art-snippet {
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+.art-link {
+  font-size: 12px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+}
+.art-link:hover { color: var(--text-1); }
+
+/* ── Footer ── */
+.footer {
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-3);
+  padding: 16px 0 8px;
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+  line-height: 1.6;
+}
+
+/* ── LinkedIn Post ── */
+.li-post {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.li-post-hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+.li-copy-btn {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
+  background: none;
+  border: 1px solid var(--border-2);
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.li-copy-btn:hover { color: var(--text-1); border-color: var(--text-3); }
+.li-post-body {
+  padding: 16px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #d8d8d8;
+  white-space: pre-wrap;
+}
+
+/* ── Mobile ── */
+@media (max-width: 420px) {
+  body { padding: 12px; }
+  .hero-price { font-size: 19px; }
+  .hero-cell { padding: 12px 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-row">
+    <div>
+      <div class="hdr-eyebrow">Finance Digest</div>
+      <div class="hdr-title">October 22, 2026</div>
+      <div class="hdr-sub">Thursday &nbsp;·&nbsp; US Market Close &nbsp;·&nbsp; 4:00 PM ET</div>
+    </div>
+    <nav class="nav">
+      <a href="2026-10-21.html">← 2026-10-21</a>
+      <a href="archive.html" title="Archive">☰</a>
+      <span>latest →</span>
+    </nav>
+  </div>
+</div>
+
+<div class="mkt-wrap">
+  <div class="mkt-label">Market Snapshot</div>
+  <div class="hero-grid"><div class="hero-cell"><div class="hero-name">S&P 500</div><div class="hero-price">7,757.17</div><div class="hero-chg up">+0.86%</div></div><div class="hero-cell"><div class="hero-name">Nasdaq 100</div><div class="hero-price">29,823</div><div class="hero-chg up">+0.99%</div></div><div class="hero-cell"><div class="hero-name">VIX</div><div class="hero-price">16.68</div><div class="hero-chg down">-3.64%</div></div><div class="hero-cell"><div class="hero-name">10yr Yield</div><div class="hero-price">5.15</div><div class="hero-chg up">+0.57%</div></div></div>
+  <div class="sec-table-wrap">
+    <div class="sec-section-hd">US Equities</div><table class="sec"><tr><td class="sn">Dow Jones</td><td class="sv">52,856</td><td class="sc up">+1.71%</td></tr><tr><td class="sn">Russell 2000</td><td class="sv">2,781.02</td><td class="sc up">+1.93%</td></tr></table><div class="sec-section-hd">US Rates</div><table class="sec"><tr><td class="sn">5yr Yield</td><td class="sv">4.97</td><td class="sc up">+0.75%</td></tr><tr><td class="sn">30yr Yield</td><td class="sv">5.44</td><td class="sc up">+0.26%</td></tr></table><div class="sec-section-hd">FX</div><table class="sec"><tr><td class="sn">DXY</td><td class="sv">101.60</td><td class="sc down">-0.18%</td></tr><tr><td class="sn">EUR/USD</td><td class="sv">1.1247</td><td class="sc up">+0.18%</td></tr><tr><td class="sn">USD/JPY</td><td class="sv">157.61</td><td class="sc down">-0.42%</td></tr><tr><td class="sn">GBP/USD</td><td class="sv">1.3398</td><td class="sc up">+0.19%</td></tr></table><div class="sec-section-hd">Commodities</div><table class="sec"><tr><td class="sn">WTI Crude</td><td class="sv">98.95</td><td class="sc up">+1.85%</td></tr><tr><td class="sn">Brent Crude</td><td class="sv">111.09</td><td class="sc up">+2.09%</td></tr><tr><td class="sn">Gold</td><td class="sv">4,102.20</td><td class="sc down">-1.15%</td></tr><tr><td class="sn">Copper</td><td class="sv">6.48</td><td class="sc down">-0.98%</td></tr></table><div class="sec-section-hd">Crypto</div><table class="sec"><tr><td class="sn">Bitcoin</td><td class="sv">82,810</td><td class="sc down">-1.45%</td></tr></table>
+    <div class="vix-bar">VIX subdued — markets are calm, implied volatility is low.</div>
+  </div>
+</div>
+
+<div class="section-block"><div class="section-hd">Analysis</div><div class="section-body"><p style="color:var(--text-3)">Summary unavailable — see articles below.</p></div></div>
+
+<div class="edge">
+  <div class="edge-hd">Today's Edge — Thursday</div>
+  <div class="edge-body">
+    <div class="edge-title">Sovereign Debt Stress</div>
+    <div class="edge-text">US debt-to-GDP sits above 120%. Japan's yield curve control is at credibility limits. Several EM economies face dollar-debt refinancing walls as rates stay higher for longer. The CBO projects US interest costs exceeding defense spending. Rising sovereign risk reprices global bonds, widens credit spreads, and affects every risk asset class — this is macro's slow-moving earthquake that everyone is watching.</div>
+  </div>
+</div>
+
+
+
+<div class="articles">
+  <div class="articles-hd">Source Articles — tap to read in full</div>
+  <div class="art"><div class="art-source">The Economist</div><div class="art-title">The late Perry Mehrling explained the hierarchy of money</div><div class="art-snippet">The course for par…</div><a href="https://www.economist.com/finance-and-economics/2026/10/20/the-late-perry-mehrling-explained-the-hierarchy-of-money" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">The Economist</div><div class="art-title">Who will buy $120bn-worth of fresh Japanese government bonds?</div><div class="art-snippet">Japan wants its pension fund and households to buy more government debt…</div><a href="https://www.economist.com/finance-and-economics/2026/10/19/who-will-buy-120bn-worth-of-fresh-japanese-government-bonds" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">The Economist</div><div class="art-title">It’s not just Commerzbank: Italians are eating up German business</div><div class="art-snippet">The takeover of the bank by UniCredit is only the start…</div><a href="https://www.economist.com/finance-and-economics/2026/10/16/its-not-just-commerzbank-italians-are-eating-up-german-business" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">CNBC Markets</div><div class="art-title">James Talarico fires back at Elon Musk in Texas Senate race feud</div><div class="art-snippet">Musk in September donated $158 million to a Republican Super PAC, which sent that cash to a PAC backing GOP Senate nominee Ken Paxton, Talarico's opponent.…</div><a href="https://www.cnbc.com/2026/10/22/james-talarico-elon-musk-ken-paxton-texas-senate-race.html" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">CNBC Markets</div><div class="art-title">Oil prices jump on Middle East worries as U.S., Israel reportedly weigh fresh Iran strikes</div><div class="art-snippet">The Middle East conflict could flare up again as the U.S. reportedly plans to resume strikes against Iran.…</div><a href="https://www.cnbc.com/2026/10/22/oil-prices-today-wti-brent-saudi-arabia.html" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">CNBC Markets</div><div class="art-title">Critical web security flaws spark global alarm as Google, OpenAI and Amazon respond</div><div class="art-snippet">Critical PHP security flaws trigger global warnings as Google, OpenAI and Amazon respond to potential cyber threats.…</div><a href="https://www.cnbc.com/2026/10/22/php-google-openai-and-amazon-cyber.html" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">CNBC Markets</div><div class="art-title">China's stock market sinks into bear territory as CSI 300 extends 10-week rout</div><div class="art-snippet">China's benchmark CSI 300 index has entered bear-market territory, falling 20% from its June peak, as a prolonged selloff in mainland equities deepens.…</div><a href="https://www.cnbc.com/2026/10/22/chinas-stock-market-csi-300-bear-market.html" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">MarketWatch</div><div class="art-title">My father-in-law, 81, sold his $75,000 home and paid off his daughter’s $50,000 debt. What happens to him now?</div><div class="art-snippet">“Nothing has been set aside for his needs.”…</div><a href="https://www.marketwatch.com/story/my-father-in-law-81-sold-his-75-000-home-and-paid-off-his-daughters-50-000-debt-what-happens-to-him-now-60e8fc72?mod=mw_rss_topstories" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">MarketWatch</div><div class="art-title">The Social Security Administration wants more babies signed up for ‘Trump accounts.’ But there’s still a catch.</div><div class="art-snippet">Social Security is looking to reverse an initially slow uptake on Trump accounts…</div><a href="https://www.marketwatch.com/story/the-social-security-administration-wants-more-babies-signed-up-for-trump-accounts-but-theres-still-a-catch-4096f16e?mod=mw_rss_topstories" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">MarketWatch</div><div class="art-title">This wonky maneuver kept Mark Zuckerberg from fleeing a California billionaire tax</div><div class="art-snippet">Facing a potentially giant tax bill that could threaten his voting power, Zuckerberg was days away from listing his Palo Alto home when Meta agreed to create a new class of stock.…</div><a href="https://www.marketwatch.com/story/this-wonky-maneuver-kept-mark-zuckerberg-from-fleeing-a-california-billionaire-tax-1de34562?mod=mw_rss_topstories" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">MarketWatch</div><div class="art-title">Tesla’s stock falls as Elon Musk leaves investors wanting more</div><div class="art-snippet">SpaceX merger commentary is arguably the biggest thing on the minds of Tesla investors right now — and Musk had nothing new to offer on Wednesday.…</div><a href="https://www.marketwatch.com/story/teslas-stock-falls-as-elon-musk-leaves-investors-wanting-more-eb347f38?mod=mw_rss_topstories" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">Financial Post</div><div class="art-title">Ipsen delivers outstanding sales growth in the first nine months of 2026 and further upgrades its full-year guidance</div><div class="art-snippet">Year-to-date total sales growth of 24.6% at CER1, or 23.0% as reported, with the core portfolio2 achieving sales growth of 24.2%1 Further upgraded FY 2026 financial guidance: total sales growth around 23.0% at CER (prior guidance: greater than 20.0% at CER); core operating margin…</div><a href="https://financialpost.com/globe-newswire/ipsen-delivers-outstanding-sales-growth-in-the-first-nine-months-of-2026-and-further-upgrades-its-full-year-guidance" target="_blank" rel="noopener" class="art-link">Read full article →</a></div>
+</div>
+
+<div class="footer">
+  Auto-generated at market close · Toronto time &nbsp;·&nbsp; October 22, 2026<br>
+  Sources: NewsAPI · The Economist · CNBC · Google News
+</div>
+
+</body>
+</html>
