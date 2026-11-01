@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0a0a0a">
+<title>Finance Digest — November 01, 2026</title>
+<style>
+:root {
+  --bg:        #0a0a0a;
+  --surface:   #111111;
+  --surface-2: #181818;
+  --border:    #222222;
+  --border-2:  #2a2a2a;
+  --text-1:    #f0f0f0;
+  --text-2:    #888888;
+  --text-3:    #444444;
+  --num:       #ffffff;
+  --up:        #4a7c59;
+  --down:      #8b4a4a;
+  --accent:    #5a8ab0;
+  --green-dim: #1a3328;
+  --green-txt: #7ab898;
+  --green-bdr: #2a4a3a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 15px; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text-1);
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Header ── */
+.hdr {
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  background: var(--surface);
+}
+.hdr-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.hdr-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.hdr-title { font-size: 22px; font-weight: 700; color: var(--text-1); letter-spacing: -0.3px; line-height: 1.2; }
+.hdr-sub { font-size: 12px; color: var(--text-2); margin-top: 5px; }
+.nav { display: flex; gap: 6px; flex-shrink: 0; margin-top: 2px; }
+.nav a, .nav span {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-2);
+  color: var(--text-2);
+  text-decoration: none;
+  white-space: nowrap;
+  background: var(--surface-2);
+}
+.nav a:hover { color: var(--text-1); border-color: var(--text-3); }
+.nav span { opacity: 0.35; pointer-events: none; }
+
+/* ── Market Snapshot ── */
+.mkt-wrap { margin-bottom: 16px; }
+.mkt-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; }
+
+/* Hero grid — 4 main numbers */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1px;
+}
+.hero-cell { background: var(--surface); padding: 14px 16px; }
+.hero-name { font-size: 11px; color: var(--text-2); margin-bottom: 6px; letter-spacing: 0.2px; }
+.hero-price {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--num);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+.hero-chg { font-size: 12px; margin-top: 5px; font-weight: 500; }
+.hero-chg.up   { color: var(--up); }
+.hero-chg.down { color: var(--down); }
+.hero-chg.flat { color: var(--text-3); }
+
+/* Secondary table */
+.sec-table-wrap {
+  border: 1px solid var(--border);
+  border-radius: 0 0 12px 12px;
+  border-top: none;
+  background: var(--surface);
+  overflow: hidden;
+}
+.sec-section-hd {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 8px 16px 4px;
+  background: var(--surface-2);
+  border-top: 1px solid var(--border);
+}
+.sec-section-hd:first-child { border-top: 1px solid var(--border); }
+table.sec { width: 100%; border-collapse: collapse; }
+table.sec td { padding: 7px 16px; font-size: 13px; }
+table.sec tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
+.sn { color: var(--text-2); width: 50%; }
+.sv { text-align: right; font-weight: 600; color: var(--num); font-variant-numeric: tabular-nums; }
+.sc { text-align: right; width: 72px; font-size: 12px; font-weight: 500; }
+.sc.up   { color: var(--up); }
+.sc.down { color: var(--down); }
+.sc.flat { color: var(--text-3); }
+.vix-bar {
+  margin: 0;
+  padding: 10px 16px;
+  font-size: 11px;
+  color: var(--text-3);
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 0 0 11px 11px;
+}
+
+/* ── Analysis Sections ── */
+.analysis { margin-bottom: 16px; }
+.section-block {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.section-block:last-child { margin-bottom: 0; }
+.section-hd {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+.section-body { padding: 14px 16px; }
+.section-body p {
+  font-size: 14px;
+  line-height: 1.72;
+  color: #d8d8d8;
+  margin-bottom: 10px;
+}
+.section-body p:last-child { margin-bottom: 0; }
+.section-body .bullet {
+  padding-left: 12px;
+  border-left: 2px solid var(--border-2);
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #d0d0d0;
+}
+.section-body .bullet:last-child { margin-bottom: 0; }
+
+/* ── Edge Topic ── */
+.edge {
+  border: 1px solid var(--green-bdr);
+  border-radius: 12px;
+  background: var(--green-dim);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.edge-hd {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #4a8a68;
+  padding: 11px 16px 9px;
+  border-bottom: 1px solid var(--green-bdr);
+}
+.edge-body { padding: 14px 16px; }
+.edge-title { font-size: 15px; font-weight: 700; color: var(--green-txt); margin-bottom: 8px; letter-spacing: -0.1px; }
+.edge-text { font-size: 13px; color: #7aaa8a; line-height: 1.68; }
+
+/* ── Articles ── */
+.articles {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.articles-hd {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+.art {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.art:last-child { border-bottom: none; }
+.art-source {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 5px;
+}
+.art-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-1);
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+.art-snippet {
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+.art-link {
+  font-size: 12px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+}
+.art-link:hover { color: var(--text-1); }
+
+/* ── Footer ── */
+.footer {
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-3);
+  padding: 16px 0 8px;
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+  line-height: 1.6;
+}
+
+/* ── LinkedIn Post ── */
+.li-post {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.li-post-hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+.li-copy-btn {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
+  background: none;
+  border: 1px solid var(--border-2);
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.li-copy-btn:hover { color: var(--text-1); border-color: var(--text-3); }
+.li-post-body {
+  padding: 16px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #d8d8d8;
+  white-space: pre-wrap;
+}
+
+/* ── Mobile ── */
+@media (max-width: 420px) {
+  body { padding: 12px; }
+  .hero-price { font-size: 19px; }
+  .hero-cell { padding: 12px 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-row">
+    <div>
+      <div class="hdr-eyebrow">Finance Digest</div>
+      <div class="hdr-title">November 01, 2026</div>
+      <div class="hdr-sub">Sunday &nbsp;·&nbsp; US Market Close &nbsp;·&nbsp; 4:00 PM ET</div>
+    </div>
+    <nav class="nav">
+      <a href="2026-10-31.html">← 2026-10-31</a>
+      <a href="archive.html" title="Archive">☰</a>
+      <span>latest →</span>
+    </nav>
+  </div>
+</div>
+
+<div class="mkt-wrap">
+  <div class="mkt-label">Market Snapshot</div>
+  <div class="hero-grid"><div class="hero-cell"><div class="hero-name">S&P 500</div><div class="hero-price">7,580.07</div><div class="hero-chg down">-2.12%</div></div><div class="hero-cell"><div class="hero-name">Nasdaq 100</div><div class="hero-price">28,385</div><div class="hero-chg down">-4.79%</div></div><div class="hero-cell"><div class="hero-name">VIX</div><div class="hero-price">19.42</div><div class="hero-chg up">+12.91%</div></div><div class="hero-cell"><div class="hero-name">10yr Yield</div><div class="hero-price">4.93</div><div class="hero-chg down">-1.20%</div></div></div>
+  <div class="sec-table-wrap">
+    <div class="sec-section-hd">US Equities</div><table class="sec"><tr><td class="sn">Dow Jones</td><td class="sv">51,770</td><td class="sc down">-1.34%</td></tr><tr><td class="sn">Russell 2000</td><td class="sv">2,811.84</td><td class="sc down">-0.66%</td></tr></table><div class="sec-section-hd">US Rates</div><table class="sec"><tr><td class="sn">5yr Yield</td><td class="sv">4.72</td><td class="sc down">-1.67%</td></tr><tr><td class="sn">30yr Yield</td><td class="sv">5.31</td><td class="sc down">-0.38%</td></tr></table><div class="sec-section-hd">FX</div><table class="sec"><tr><td class="sn">DXY</td><td class="sv">101.96</td><td class="sc up">+0.08%</td></tr><tr><td class="sn">EUR/USD</td><td class="sv">1.1166</td><td class="sc up">+0.09%</td></tr><tr><td class="sn">USD/JPY</td><td class="sv">157.52</td><td class="sc down">-0.20%</td></tr><tr><td class="sn">GBP/USD</td><td class="sv">1.3393</td><td class="sc up">+0.49%</td></tr></table><div class="sec-section-hd">Commodities</div><table class="sec"><tr><td class="sn">WTI Crude</td><td class="sv">104.12</td><td class="sc flat">+0.00%</td></tr><tr><td class="sn">Brent Crude</td><td class="sv">113.43</td><td class="sc down">-3.58%</td></tr><tr><td class="sn">Gold</td><td class="sv">3,898.90</td><td class="sc flat">+0.00%</td></tr><tr><td class="sn">Copper</td><td class="sv">6.48</td><td class="sc up">+0.36%</td></tr></table><div class="sec-section-hd">Crypto</div><table class="sec"><tr><td class="sn">Bitcoin</td><td class="sv">77,864</td><td class="sc up">+0.55%</td></tr></table>
+    <div class="vix-bar">VIX subdued — markets are calm, implied volatility is low.</div>
+  </div>
+</div>
+
+<div class="section-block"><div class="section-hd">Analysis</div><div class="section-body"><p style="color:var(--text-3)">Summary unavailable — see articles below.</p></div></div>
+
+<div class="edge">
+  <div class="edge-hd">Today's Edge — Sunday</div>
+  <div class="edge-body">
+    <div class="edge-title">Weekend Review</div>
+    <div class="edge-text">Reflect on the week's key themes.</div>
+  </div>
+</div>
+
+
+
+<div class="articles">
+  <div class="articles-hd">Source Articles — tap to read in full</div>
+  <div class="art"><div class="art-source">The Economist</div><div class="art-title">Christine Lagarde departs at a moment of peril</div><div class="art-snippet">Her successor as ECB chief will have an unenviable job…</div><a href="https://www.economist.com/finance-and-economics/2026/10/29/christine-lagarde-departs-at-a-moment-of-peril" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">The Economist</div><div class="art-title">The never-ending absurdity of global oil markets</div><div class="art-snippet">Despite stronger Gulf exports, Brent is near its Iran-war peak…</div><a href="https://www.economist.com/finance-and-economics/2026/10/29/the-never-ending-absurdity-of-global-oil-markets" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">The Economist</div><div class="art-title">The countries making a fortune from the US-China rivalry</div><div class="art-snippet">Critical-mineral profits could transform a lucky few…</div><a href="https://www.economist.com/finance-and-economics/2026/10/29/the-countries-making-a-fortune-from-the-us-china-rivalry" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">CNBC Markets</div><div class="art-title">Binance says 90% of $6.3 billion hack losses are now covered, plans to resume withdrawals Sunday</div><div class="art-snippet">Binance says it has restored backing for 90% of assets affected by its $6.3 billion hack and is planning to resume withdrawals, subject to security checks.…</div><a href="https://www.cnbc.com/2026/10/31/binance-hack-asset-coverage-withdrawals.html" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">CNBC Markets</div><div class="art-title">Trump defamation suit against Murdoch, WSJ over Epstein letter dismissed with prejudice</div><div class="art-snippet">President Donald Trump denied writing a birthday letter to sex offender Jeffrey Epstein, which was the subject of a 2025 Wall Street Journal article.…</div><a href="https://www.cnbc.com/2026/10/31/trump-murdoch-wsj-epstein-defamation-lawsuit-dismissed.html" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">CNBC Markets</div><div class="art-title">‘Pop-up’ super PACs pour $637 million into 2026 midterm races</div><div class="art-snippet">Twenty-two late-forming super PACs spent about $637 million in 2026 congressional races, sometimes before voters could see their donors.…</div><a href="https://www.cnbc.com/2026/10/31/2026-midterm-election-super-pacs-donor-disclosure.html" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">CNBC Markets</div><div class="art-title">Automakers like Rivian and Ford are ‘democratizing 3D printing’ to reduce costs and increase speed</div><div class="art-snippet">Automakers including Ford, Rivian and GM are expanding 3D printing to make prototypes, factory tools and low-volume parts faster and at lower cost.…</div><a href="https://www.cnbc.com/2026/10/31/automakers-3d-printing-ford-rivian-gm.html" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">MarketWatch</div><div class="art-title">My abusive ex-husband promised $20,000 for our kids’ education. Now he refuses to pay. Is he legally obligated?</div><div class="art-snippet">“Before our divorce, my former mother-in-law entrusted him with $20,000 for each of our daughters to invest on their behalf.”…</div><a href="https://www.marketwatch.com/story/my-abusive-ex-husband-promised-20-000-for-our-kids-education-now-he-refuses-to-pay-is-he-legally-obligated-325ef50f?mod=mw_rss_topstories" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">MarketWatch</div><div class="art-title">‘Showy jewelry and fancy cars hold no appeal’: We have a 99% chance of outliving our life savings. Why not spend it all?</div><div class="art-snippet">“I’m 68, she’s 74, and we’re both in good health. We married later in life and have no children.”…</div><a href="https://www.marketwatch.com/story/fancy-cars-hold-no-appeal-my-wife-and-i-have-a-99-chance-of-outliving-our-savings-why-dont-we-spend-it-all-932a2166?mod=mw_rss_topstories" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">MarketWatch</div><div class="art-title">This is where most people go wrong in their 30s and 40s</div><div class="art-snippet">These big life decisions will determine just how well you retire.…</div><a href="https://www.marketwatch.com/story/the-house-the-kids-college-and-the-raise-where-people-in-their-30s-and-40s-go-wrong-69ec6c90?mod=mw_rss_topstories" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">MarketWatch</div><div class="art-title">We’re in our 70s. Should we pay off our 2.5% mortgage — or put the money in a high-yield savings account?</div><div class="art-snippet">“Let’s say 10 years from now, when I’m 84, we need a substantial amount of cash.”…</div><a href="https://www.marketwatch.com/story/we-are-in-our-70s-should-we-pay-off-our-2-5-mortgage-or-build-up-our-savings-5a35e9c1?mod=mw_rss_topstories" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">Livemint</div><div class="art-title">Lodha Developers makes NCR market debut with ₹1,700 crore office project</div><div class="art-snippet">The Mumbai-based developer is expanding beyond its traditional markets as it prepares a residential launch in Gurugram and builds a  ₹20,000 crore housing launch pipeline for the second half of FY27.…</div><a href="https://www.livemint.com/companies/news/lodha-developers-makes-ncr-market-debut-with-1-700-crore-office-project-11793389967697.html" target="_blank" rel="noopener" class="art-link">Read full article →</a></div>
+</div>
+
+<div class="footer">
+  Auto-generated at market close · Toronto time &nbsp;·&nbsp; November 01, 2026<br>
+  Sources: NewsAPI · The Economist · CNBC · Google News
+</div>
+
+</body>
+</html>
