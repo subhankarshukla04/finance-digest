@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0a0a0a">
+<title>Finance Digest — November 19, 2026</title>
+<style>
+:root {
+  --bg:        #0a0a0a;
+  --surface:   #111111;
+  --surface-2: #181818;
+  --border:    #222222;
+  --border-2:  #2a2a2a;
+  --text-1:    #f0f0f0;
+  --text-2:    #888888;
+  --text-3:    #444444;
+  --num:       #ffffff;
+  --up:        #4a7c59;
+  --down:      #8b4a4a;
+  --accent:    #5a8ab0;
+  --green-dim: #1a3328;
+  --green-txt: #7ab898;
+  --green-bdr: #2a4a3a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 15px; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text-1);
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Header ── */
+.hdr {
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  background: var(--surface);
+}
+.hdr-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.hdr-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.hdr-title { font-size: 22px; font-weight: 700; color: var(--text-1); letter-spacing: -0.3px; line-height: 1.2; }
+.hdr-sub { font-size: 12px; color: var(--text-2); margin-top: 5px; }
+.nav { display: flex; gap: 6px; flex-shrink: 0; margin-top: 2px; }
+.nav a, .nav span {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-2);
+  color: var(--text-2);
+  text-decoration: none;
+  white-space: nowrap;
+  background: var(--surface-2);
+}
+.nav a:hover { color: var(--text-1); border-color: var(--text-3); }
+.nav span { opacity: 0.35; pointer-events: none; }
+
+/* ── Market Snapshot ── */
+.mkt-wrap { margin-bottom: 16px; }
+.mkt-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; }
+
+/* Hero grid — 4 main numbers */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1px;
+}
+.hero-cell { background: var(--surface); padding: 14px 16px; }
+.hero-name { font-size: 11px; color: var(--text-2); margin-bottom: 6px; letter-spacing: 0.2px; }
+.hero-price {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--num);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+.hero-chg { font-size: 12px; margin-top: 5px; font-weight: 500; }
+.hero-chg.up   { color: var(--up); }
+.hero-chg.down { color: var(--down); }
+.hero-chg.flat { color: var(--text-3); }
+
+/* Secondary table */
+.sec-table-wrap {
+  border: 1px solid var(--border);
+  border-radius: 0 0 12px 12px;
+  border-top: none;
+  background: var(--surface);
+  overflow: hidden;
+}
+.sec-section-hd {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 8px 16px 4px;
+  background: var(--surface-2);
+  border-top: 1px solid var(--border);
+}
+.sec-section-hd:first-child { border-top: 1px solid var(--border); }
+table.sec { width: 100%; border-collapse: collapse; }
+table.sec td { padding: 7px 16px; font-size: 13px; }
+table.sec tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
+.sn { color: var(--text-2); width: 50%; }
+.sv { text-align: right; font-weight: 600; color: var(--num); font-variant-numeric: tabular-nums; }
+.sc { text-align: right; width: 72px; font-size: 12px; font-weight: 500; }
+.sc.up   { color: var(--up); }
+.sc.down { color: var(--down); }
+.sc.flat { color: var(--text-3); }
+.vix-bar {
+  margin: 0;
+  padding: 10px 16px;
+  font-size: 11px;
+  color: var(--text-3);
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 0 0 11px 11px;
+}
+
+/* ── Analysis Sections ── */
+.analysis { margin-bottom: 16px; }
+.section-block {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.section-block:last-child { margin-bottom: 0; }
+.section-hd {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+.section-body { padding: 14px 16px; }
+.section-body p {
+  font-size: 14px;
+  line-height: 1.72;
+  color: #d8d8d8;
+  margin-bottom: 10px;
+}
+.section-body p:last-child { margin-bottom: 0; }
+.section-body .bullet {
+  padding-left: 12px;
+  border-left: 2px solid var(--border-2);
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #d0d0d0;
+}
+.section-body .bullet:last-child { margin-bottom: 0; }
+
+/* ── Edge Topic ── */
+.edge {
+  border: 1px solid var(--green-bdr);
+  border-radius: 12px;
+  background: var(--green-dim);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.edge-hd {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #4a8a68;
+  padding: 11px 16px 9px;
+  border-bottom: 1px solid var(--green-bdr);
+}
+.edge-body { padding: 14px 16px; }
+.edge-title { font-size: 15px; font-weight: 700; color: var(--green-txt); margin-bottom: 8px; letter-spacing: -0.1px; }
+.edge-text { font-size: 13px; color: #7aaa8a; line-height: 1.68; }
+
+/* ── Articles ── */
+.articles {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.articles-hd {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+.art {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.art:last-child { border-bottom: none; }
+.art-source {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 5px;
+}
+.art-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-1);
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+.art-snippet {
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+.art-link {
+  font-size: 12px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+}
+.art-link:hover { color: var(--text-1); }
+
+/* ── Footer ── */
+.footer {
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-3);
+  padding: 16px 0 8px;
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+  line-height: 1.6;
+}
+
+/* ── LinkedIn Post ── */
+.li-post {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.li-post-hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+.li-copy-btn {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent);
+  background: none;
+  border: 1px solid var(--border-2);
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.li-copy-btn:hover { color: var(--text-1); border-color: var(--text-3); }
+.li-post-body {
+  padding: 16px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #d8d8d8;
+  white-space: pre-wrap;
+}
+
+/* ── Mobile ── */
+@media (max-width: 420px) {
+  body { padding: 12px; }
+  .hero-price { font-size: 19px; }
+  .hero-cell { padding: 12px 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-row">
+    <div>
+      <div class="hdr-eyebrow">Finance Digest</div>
+      <div class="hdr-title">November 19, 2026</div>
+      <div class="hdr-sub">Thursday &nbsp;·&nbsp; US Market Close &nbsp;·&nbsp; 4:00 PM ET</div>
+    </div>
+    <nav class="nav">
+      <a href="2026-11-18.html">← 2026-11-18</a>
+      <a href="archive.html" title="Archive">☰</a>
+      <span>latest →</span>
+    </nav>
+  </div>
+</div>
+
+<div class="mkt-wrap">
+  <div class="mkt-label">Market Snapshot</div>
+  <div class="hero-grid"><div class="hero-cell"><div class="hero-name">S&P 500</div><div class="hero-price">7,323.63</div><div class="hero-chg down">-1.25%</div></div><div class="hero-cell"><div class="hero-name">Nasdaq 100</div><div class="hero-price">27,116</div><div class="hero-chg down">-0.30%</div></div><div class="hero-cell"><div class="hero-name">VIX</div><div class="hero-price">24.56</div><div class="hero-chg flat">+0.00%</div></div><div class="hero-cell"><div class="hero-name">10yr Yield</div><div class="hero-price">5.07</div><div class="hero-chg down">-0.73%</div></div></div>
+  <div class="sec-table-wrap">
+    <div class="sec-section-hd">US Equities</div><table class="sec"><tr><td class="sn">Dow Jones</td><td class="sv">50,198</td><td class="sc down">-2.73%</td></tr><tr><td class="sn">Russell 2000</td><td class="sv">2,714.31</td><td class="sc down">-1.04%</td></tr></table><div class="sec-section-hd">US Rates</div><table class="sec"><tr><td class="sn">5yr Yield</td><td class="sv">4.88</td><td class="sc down">-0.33%</td></tr><tr><td class="sn">30yr Yield</td><td class="sv">5.41</td><td class="sc down">-0.84%</td></tr></table><div class="sec-section-hd">FX</div><table class="sec"><tr><td class="sn">DXY</td><td class="sv">103.83</td><td class="sc down">-0.03%</td></tr><tr><td class="sn">EUR/USD</td><td class="sv">1.0983</td><td class="sc down">-0.09%</td></tr><tr><td class="sn">USD/JPY</td><td class="sv">159.73</td><td class="sc up">+0.14%</td></tr><tr><td class="sn">GBP/USD</td><td class="sv">1.3153</td><td class="sc down">-0.39%</td></tr></table><div class="sec-section-hd">Commodities</div><table class="sec"><tr><td class="sn">WTI Crude</td><td class="sv">82.25</td><td class="sc down">-1.21%</td></tr><tr><td class="sn">Brent Crude</td><td class="sv">89.28</td><td class="sc down">-2.90%</td></tr><tr><td class="sn">Gold</td><td class="sv">3,733.20</td><td class="sc down">-0.23%</td></tr><tr><td class="sn">Copper</td><td class="sv">5.67</td><td class="sc up">+0.20%</td></tr></table><div class="sec-section-hd">Crypto</div><table class="sec"><tr><td class="sn">Bitcoin</td><td class="sv">63,626</td><td class="sc up">+1.01%</td></tr></table>
+    <div class="vix-bar">VIX elevated — options market is pricing meaningful near-term risk.</div>
+  </div>
+</div>
+
+<div class="section-block"><div class="section-hd">Analysis</div><div class="section-body"><p style="color:var(--text-3)">Summary unavailable — see articles below.</p></div></div>
+
+<div class="edge">
+  <div class="edge-hd">Today's Edge — Thursday</div>
+  <div class="edge-body">
+    <div class="edge-title">Sovereign Debt Stress</div>
+    <div class="edge-text">US debt-to-GDP sits above 120%. Japan's yield curve control is at credibility limits. Several EM economies face dollar-debt refinancing walls as rates stay higher for longer. The CBO projects US interest costs exceeding defense spending. Rising sovereign risk reprices global bonds, widens credit spreads, and affects every risk asset class — this is macro's slow-moving earthquake that everyone is watching.</div>
+  </div>
+</div>
+
+
+
+<div class="articles">
+  <div class="articles-hd">Source Articles — tap to read in full</div>
+  <div class="art"><div class="art-source">The Economist</div><div class="art-title">Meet the European Central Bank’s new squad</div><div class="art-snippet">A Spaniard, a German and a Frenchwoman…</div><a href="https://www.economist.com/finance-and-economics/2026/11/18/meet-the-european-central-banks-new-squad" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">The Economist</div><div class="art-title">Why startups still go public, eventually</div><div class="art-snippet">Costly regulation is not a big deterrent to IPOs…</div><a href="https://www.economist.com/finance-and-economics/2026/11/17/why-startups-still-go-public-eventually" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">The Economist</div><div class="art-title">Does Donald Trump care about the economy?</div><div class="art-snippet">His economic advisers have gone missing after a bruising midterm defeat…</div><a href="https://www.economist.com/finance-and-economics/2026/11/17/does-donald-trump-care-about-the-economy" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">CNBC Markets</div><div class="art-title">Anthropic IPO raises over $81 billion in largest offering on record, topping SpaceX</div><div class="art-snippet">Anthropic stock is set to begin trading on the Nasdaq under the ticker symbol ANT on Thursday.…</div><a href="https://www.cnbc.com/2026/11/18/anthropic-ipo-ai-offering-price.html" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">CNBC Markets</div><div class="art-title">Musk accuses Zelenskyy of lying about Starshield restrictions in Ukraine</div><div class="art-snippet">Elon Musk was asked about Zelenskyy claims over the Starshield network, and he said, "I don't want to blow your mind, but Zelenskyy is not always truthful."…</div><a href="https://www.cnbc.com/2026/11/19/elon-musk-zelenskyy-starshield-ukraine.html" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">CNBC Markets</div><div class="art-title">Trump holds talks separately with Putin and Xi ahead of their historic trilateral meeting</div><div class="art-snippet">U.S. President Donald Trump met individually on Thursday with Russian President Vladimir Putin, as well as Chinese President Xi Jinping.…</div><a href="https://www.cnbc.com/2026/11/19/trump-xi-putin-china-apec-.html" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">CNBC Markets</div><div class="art-title">Takaichi gets chilly reception in China on first Japan leader visit since 2019</div><div class="art-snippet">Takaichi received a subdued welcome on her trip to attend the APEC summit, as Beijing shows limited appetite for repairing ties strained by Taiwan dispute.…</div><a href="https://www.cnbc.com/2026/11/19/japan-china-trump-takaichi-taiwan-.html" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">MarketWatch</div><div class="art-title">My husband is happily retired at 64 and thinks I should keep working. Is he being fair?</div><div class="art-snippet">“I’m exhausted. My alarm goes off at 6 a.m., and I have a 50-minute commute.”…</div><a href="https://www.marketwatch.com/story/my-husband-is-happily-retired-at-64-and-thinks-i-should-keep-working-is-he-being-fair-325c5f38?mod=mw_rss_topstories" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">MarketWatch</div><div class="art-title">‘It’s downright dirty’: My brother took over our ailing mother’s life and finances. What can I do?</div><div class="art-snippet">“It is devastating when the people you should be able to trust become the very people you have to protect yourself from.”…</div><a href="https://www.marketwatch.com/story/it-is-heartbreaking-exhausting-and-downright-dirty-my-brother-took-over-our-ailing-mothers-life-and-finances-what-can-i-do-b4d48817?mod=mw_rss_topstories" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">MarketWatch</div><div class="art-title">‘I’ve been a stay-at-home mom’: I’m 50 and have a chronic illness. My husband lost his job. Should he raid his 401(k)?</div><div class="art-snippet">“Our financial and healthcare situation has become increasingly concerning.”…</div><a href="https://www.marketwatch.com/story/ive-been-a-stay-at-home-mom-im-50-and-have-a-chronic-illness-my-husband-lost-his-job-should-he-raid-his-401-k-63e59123?mod=mw_rss_topstories" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">MarketWatch</div><div class="art-title">Palo Alto Networks’ stock gets a fresh AI-fueled boost from earnings</div><div class="art-snippet">The company boosts its outlook in the face of the “current threat environment and demand we see ahead of us.”…</div><a href="https://www.marketwatch.com/story/palo-alto-networks-stock-soars-as-earnings-show-ai-has-upped-the-stakes-for-cybersecurity-308e34b8?mod=mw_rss_topstories" target="_blank" rel="noopener" class="art-link">Read full article →</a></div><div class="art"><div class="art-source">Crypto Briefing</div><div class="art-title">Qatar condemns Iran’s drone strikes on Kuwait and Bahrain as sovereignty violations</div><div class="art-snippet">Regional instability may escalate, pressuring Iran's leadership and affecting political dynamics, with potential shifts in international relations.
+The post Qatar condemns Iran’s drone strikes on Kuwait and Bahrain as sovereignty violations appeared first on ……</div><a href="https://cryptobriefing.com/qatar-condemns-irans-drone-strikes-on-kuwait-and-bahrain-as-sovereignty/" target="_blank" rel="noopener" class="art-link">Read full article →</a></div>
+</div>
+
+<div class="footer">
+  Auto-generated at market close · Toronto time &nbsp;·&nbsp; November 19, 2026<br>
+  Sources: NewsAPI · The Economist · CNBC · Google News
+</div>
+
+</body>
+</html>
