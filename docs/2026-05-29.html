@@ -254,47 +254,6 @@ table.sec tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   line-height: 1.6;
 }
 
-/* ── LinkedIn Post ── */
-.li-post {
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--surface);
-  overflow: hidden;
-  margin-bottom: 16px;
-}
-.li-post-hd {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text-3);
-  padding: 12px 16px 10px;
-  border-bottom: 1px solid var(--border);
-  background: var(--surface-2);
-}
-.li-copy-btn {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--accent);
-  background: none;
-  border: 1px solid var(--border-2);
-  border-radius: 6px;
-  padding: 4px 10px;
-  cursor: pointer;
-  text-transform: none;
-  letter-spacing: 0;
-}
-.li-copy-btn:hover { color: var(--text-1); border-color: var(--text-3); }
-.li-post-body {
-  padding: 16px;
-  font-size: 14px;
-  line-height: 1.8;
-  color: #d8d8d8;
-  white-space: pre-wrap;
-}
 
 /* ── Mobile ── */
 @media (max-width: 420px) {
@@ -353,15 +312,6 @@ table.sec tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   </div>
 </div>
 
-<div class="li-post">
-  <div class="li-post-hd">
-    <span>Today's LinkedIn Post</span>
-    <button class="li-copy-btn" onclick="navigator.clipboard.writeText(this.dataset.post);this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1800)" data-post="i saw an article about kevin warsh, the new fed chair, and how he's going to face some tough decisions with inflation, which caught my eye. so, warsh is going to have to balance what his colleagues, the market, and president trump want, all while dealing with inflation concerns, and that's kind of a big deal. the fed's inflation management is crucial for economic stability, and warsh's decisions will have significant implications for the us economy. the article mentioned that the fed's balance sheet has grown by 757%, which is kind of wild. warsh's next move is going to be huge, he's either going to raise rates or keep them steady, but either way it's going to be a big deal. following up on something from a few days ago, i've been watching this inflation story unfold, and i'm still trying to figure out how it's all going to play out. the next fomc decision is going to be huge. 
-https://www.example.com/article-about-kevin-warsh">Copy</button>
-  </div>
-  <div class="li-post-body">i saw an article about kevin warsh, the new fed chair, and how he's going to face some tough decisions with inflation, which caught my eye. so, warsh is going to have to balance what his colleagues, the market, and president trump want, all while dealing with inflation concerns, and that's kind of a big deal. the fed's inflation management is crucial for economic stability, and warsh's decisions will have significant implications for the us economy. the article mentioned that the fed's balance sheet has grown by 757%, which is kind of wild. warsh's next move is going to be huge, he's either going to raise rates or keep them steady, but either way it's going to be a big deal. following up on something from a few days ago, i've been watching this inflation story unfold, and i'm still trying to figure out how it's all going to play out. the next fomc decision is going to be huge. 
-https://www.example.com/article-about-kevin-warsh</div>
-</div>
 
 <div class="articles">
   <div class="articles-hd">Source Articles — tap to read in full</div>

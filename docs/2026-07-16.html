@@ -254,47 +254,6 @@ table.sec tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   line-height: 1.6;
 }
 
-/* ── LinkedIn Post ── */
-.li-post {
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--surface);
-  overflow: hidden;
-  margin-bottom: 16px;
-}
-.li-post-hd {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text-3);
-  padding: 12px 16px 10px;
-  border-bottom: 1px solid var(--border);
-  background: var(--surface-2);
-}
-.li-copy-btn {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--accent);
-  background: none;
-  border: 1px solid var(--border-2);
-  border-radius: 6px;
-  padding: 4px 10px;
-  cursor: pointer;
-  text-transform: none;
-  letter-spacing: 0;
-}
-.li-copy-btn:hover { color: var(--text-1); border-color: var(--text-3); }
-.li-post-body {
-  padding: 16px;
-  font-size: 14px;
-  line-height: 1.8;
-  color: #d8d8d8;
-  white-space: pre-wrap;
-}
 
 /* ── Mobile ── */
 @media (max-width: 420px) {
@@ -353,15 +312,6 @@ table.sec tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   </div>
 </div>
 
-<div class="li-post">
-  <div class="li-post-hd">
-    <span>Today's LinkedIn Post</span>
-    <button class="li-copy-btn" onclick="navigator.clipboard.writeText(this.dataset.post);this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1800)" data-post="i saw this article about the fed's new chairman, kevin warsh, and how he's facing the challenge of reducing the central bank's $7trn balance sheet, which caught my eye because it's kind of wild to think about that amount of money. so, the fed's balance sheet has grown a lot due to bond-buying activities, and now they need to shrink it to reverse the effects of quantitative easing and manage inflation. this matters because it will have big implications for the us economy and financial markets. i'm wondering how warsh plans to do this, and what the impact will be on interest rates. the fed's next move will be huge. 
-https://article.link.com/fedbalance">Copy</button>
-  </div>
-  <div class="li-post-body">i saw this article about the fed's new chairman, kevin warsh, and how he's facing the challenge of reducing the central bank's $7trn balance sheet, which caught my eye because it's kind of wild to think about that amount of money. so, the fed's balance sheet has grown a lot due to bond-buying activities, and now they need to shrink it to reverse the effects of quantitative easing and manage inflation. this matters because it will have big implications for the us economy and financial markets. i'm wondering how warsh plans to do this, and what the impact will be on interest rates. the fed's next move will be huge. 
-https://article.link.com/fedbalance</div>
-</div>
 
 <div class="articles">
   <div class="articles-hd">Source Articles — tap to read in full</div>

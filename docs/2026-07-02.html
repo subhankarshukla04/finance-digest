@@ -254,47 +254,6 @@ table.sec tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   line-height: 1.6;
 }
 
-/* ── LinkedIn Post ── */
-.li-post {
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--surface);
-  overflow: hidden;
-  margin-bottom: 16px;
-}
-.li-post-hd {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text-3);
-  padding: 12px 16px 10px;
-  border-bottom: 1px solid var(--border);
-  background: var(--surface-2);
-}
-.li-copy-btn {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--accent);
-  background: none;
-  border: 1px solid var(--border-2);
-  border-radius: 6px;
-  padding: 4px 10px;
-  cursor: pointer;
-  text-transform: none;
-  letter-spacing: 0;
-}
-.li-copy-btn:hover { color: var(--text-1); border-color: var(--text-3); }
-.li-post-body {
-  padding: 16px;
-  font-size: 14px;
-  line-height: 1.8;
-  color: #d8d8d8;
-  white-space: pre-wrap;
-}
 
 /* ── Mobile ── */
 @media (max-width: 420px) {
@@ -353,15 +312,6 @@ table.sec tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   </div>
 </div>
 
-<div class="li-post">
-  <div class="li-post-hd">
-    <span>Today's LinkedIn Post</span>
-    <button class="li-copy-btn" onclick="navigator.clipboard.writeText(this.dataset.post);this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1800)" data-post="i saw this article about russia launching a massive strike on ukraine and it caught my eye, kind of, because of the potential impact on global markets. so, what happened is that russia used long-range precision air, land, and sea-based weapons and attack drones, which prompted poland to scramble jets and finland to restrict airspace. this escalation of the conflict has significant implications for geopolitical stability, and i'm trying to figure out how it will affect markets. but what really stood out to me is that this could lead to a 7% increase in something, or something, which is kind of wild. the situation is being closely monitored by investors and policymakers alike. markets can change fast, so watch out for volatility. i'm still trying to understand how this will play out, and i'm watching to see how this affects oil prices, following up on something from a few days ago when oil prices rose to $70. 
-https://example.com/article">Copy</button>
-  </div>
-  <div class="li-post-body">i saw this article about russia launching a massive strike on ukraine and it caught my eye, kind of, because of the potential impact on global markets. so, what happened is that russia used long-range precision air, land, and sea-based weapons and attack drones, which prompted poland to scramble jets and finland to restrict airspace. this escalation of the conflict has significant implications for geopolitical stability, and i'm trying to figure out how it will affect markets. but what really stood out to me is that this could lead to a 7% increase in something, or something, which is kind of wild. the situation is being closely monitored by investors and policymakers alike. markets can change fast, so watch out for volatility. i'm still trying to understand how this will play out, and i'm watching to see how this affects oil prices, following up on something from a few days ago when oil prices rose to $70. 
-https://example.com/article</div>
-</div>
 
 <div class="articles">
   <div class="articles-hd">Source Articles — tap to read in full</div>

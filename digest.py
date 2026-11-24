@@ -290,200 +290,6 @@ Keep total under 450 words. Write like a thoughtful human analyst — complete s
         return ""
 
 
-# ── LinkedIn Editorial Series ──────────────────────────────────────────────────
-
-CATEGORIES = {
-    "rates_fed":      "Rates & The Fed — interest rate policy, yield curve, inflation, FOMC decisions",
-    "private_credit": "Private Credit — direct lending, CLOs, shadow banking, non-bank lenders, credit spreads",
-    "ai_capex":       "AI & Capital — hyperscaler spending, AI capex vs ROI, tech valuations, AI in finance",
-    "macro_risk":     "Macro Risk — tariffs, trade wars, geopolitical events affecting markets, sovereign debt",
-}
-
-CHRONICLE_PATH = Path("docs/chronicle.json")
-
-
-def load_chronicle() -> list:
-    if CHRONICLE_PATH.exists():
-        try:
-            return json.loads(CHRONICLE_PATH.read_text(encoding="utf-8"))
-        except Exception:
-            return []
-    return []
-
-
-def last_post_in_category(chronicle: list, category: str) -> dict | None:
-    for entry in reversed(chronicle):
-        if entry.get("category") == category:
-            return entry
-    return None
-
-
-def pick_story(articles: list, chronicle: list) -> dict:
-    """Two-step: Groq picks the best category + story before we write."""
-    if not GROQ_API_KEY:
-        return {}
-
-    cat_block = "\n".join(f"- {k}: {v}" for k, v in CATEGORIES.items())
-    art_block = "\n\n".join(
-        f"[{i+1}] {a['source'].upper()}: {a['title']}\n{a['snippet'][:300]}"
-        for i, a in enumerate(articles[:20])
-    )
-
-    recent: dict[str, str] = {}
-    for entry in reversed(chronicle[-20:]):
-        cat = entry.get("category", "")
-        if cat and cat not in recent:
-            recent[cat] = entry.get("date", "")
-    history_block = (
-        "\n".join(f"- {k}: last written {v}" for k, v in recent.items())
-        if recent else "No prior posts yet."
-    )
-
-    prompt = f"""You are an editorial assistant for a student finance content series. Pick ONE story to write about today.
-
-FIXED CATEGORIES (pick exactly one key):
-{cat_block}
-
-RECENT HISTORY (avoid repeating the same category two days in a row if possible):
-{history_block}
-
-TODAY'S ARTICLES:
-{art_block}
-
-Pick the single most interesting, substantive story that fits one of the four categories.
-
-PRIORITY ORDER:
-1. US or Canadian market stories — Fed, S&P, TSX, Wall Street deals, Bank of Canada
-2. Global or European stories with direct North American market impact
-3. Stories with real data or numbers
-4. Structural trends, not just one-day events
-
-AVOID: India-specific sector stories (Indian manufacturing, RBI, rupee, Indian banking) unless they have clear, measurable impact on North American or global markets. If a US/Canadian/European story of equal quality exists, always pick that instead.
-
-Respond with ONLY valid JSON, no explanation, no markdown:
-{{"category": "<category key>", "story_headline": "<headline>", "story_summary": "<2-3 sentences: what happened and why it matters>", "key_data_point": "<one specific number or figure from the story>"}}"""
-
-    try:
-        r = requests.post(
-            "https://api.groq.com/openai/v1/chat/completions",
-            headers={"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"},
-            json={
-                "model": "llama-3.3-70b-versatile",
-                "messages": [{"role": "user", "content": prompt}],
-                "max_tokens": 300,
-                "temperature": 0.1,
-            },
-            timeout=30,
-        )
-        r.raise_for_status()
-        raw = r.json()["choices"][0]["message"]["content"].strip()
-        match = re.search(r'\{.*\}', raw, re.DOTALL)
-        if match:
-            picked = json.loads(match.group())
-            print(f"  [groq] Story picked: [{picked.get('category')}] {picked.get('story_headline', '')[:60]}")
-            return picked
-    except Exception as e:
-        print(f"  [groq] pick_story failed: {e}")
-    return {}
-
-
-def generate_linkedin_post(story: dict, chronicle: list) -> str:
-    """Write the post in Subhankar's voice, with series framing and category callbacks."""
-    if not GROQ_API_KEY or not story:
-        return ""
-
-    category  = story.get("category", "")
-    cat_label = CATEGORIES.get(category, category)
-    headline  = story.get("story_headline", "")
-    summary   = story.get("story_summary", "")
-    key_data  = story.get("key_data_point", "")
-    post_count = len(chronicle) + 1  # this post will be #post_count
-
-    prior = last_post_in_category(chronicle, category)
-    prior_block = ""
-    if prior:
-        prior_block = f"""PRIOR POST IN THIS SERIES ({prior['date']}):
-Angle covered: {prior.get('angle', '')}
-Key claim: {prior.get('key_claim', '')}
-
-If it flows naturally, reference this ("following up on something from {prior['date']}...", "been tracking this since...", "this connects back to what i wrote about..."). Don't force it if it doesn't fit today's angle."""
-
-    if post_count == 1:
-        series_context = """SERIES CONTEXT: This is post #1 — the very start of the series. Open with 1-2 casual lines before the main story: something like "starting something i've been meaning to do for a while — tracking markets daily and writing about the one thing that actually matters each day. kicking it off with [topic]." Keep it brief and genuine, then go into the story."""
-    elif post_count <= 10:
-        series_context = f"SERIES CONTEXT: Post #{post_count} — series is still early, a few weeks in. No need to mention it unless natural."
-    else:
-        series_context = f"SERIES CONTEXT: Post #{post_count} — series is established. Just write the post."
-
-    prompt = f"""You are ghostwriting a LinkedIn post for Subhankar — a 3rd-year Rotman Commerce student (finance + economics at UofT). He tracks markets the way an IB analyst would, shares what he's learning, and is building a presence before he graduates. The frame is always: i saw this, here's how i'm thinking about it. Discovery-driven, not authority-driven.
-
-{series_context}
-
-TOPIC: {cat_label}
-TODAY'S STORY: {headline}
-WHAT HAPPENED: {summary}
-KEY DATA POINT (use this): {key_data}
-
-{prior_block}
-
-VOICE:
-- lowercase i throughout, always
-- casual connective flow using "and", "so", "but" — not semicolons
-- occasional natural softeners: "or something", "kind of", "which is kind of wild"
-- one short punchy sentence somewhere in the middle or end
-- framed as discovery: "saw this", "caught my eye", "been watching this"
-- student perspective: curious, still figuring it out, not teaching anyone
-
-STRUCTURE:
-- open with where you found it and what caught your attention — one sentence
-- explain what happened and why it matters in plain language
-- raise a genuine question or predict what to watch next
-- end with the article link on its own line
-- 180–220 words total
-- no hashtags
-- no dashes used as connectors or separators (no " - " or " — ")
-
-FORBIDDEN — do not use any of these under any circumstances:
-delve into / at its core / it's important to note / furthermore / moreover / in conclusion / to summarize / navigate / landscape / ecosystem / leverage (verb) / excited to share / thrilled to announce / "What do you think?" / "Thoughts?" / "agree?" / hashtags / "the way you would in banking" / "running the numbers" / "tracking this in my models" / "and all that" used more than once
-
-Output only the post text. Nothing else."""
-
-    try:
-        r = requests.post(
-            "https://api.groq.com/openai/v1/chat/completions",
-            headers={"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"},
-            json={
-                "model": "llama-3.3-70b-versatile",
-                "messages": [{"role": "user", "content": prompt}],
-                "max_tokens": 450,
-                "temperature": 0.7,
-            },
-            timeout=30,
-        )
-        r.raise_for_status()
-        return r.json()["choices"][0]["message"]["content"].strip()
-    except Exception as e:
-        print(f"  [groq] generate_linkedin_post failed: {e}")
-        return ""
-
-
-def append_chronicle(chronicle: list, story: dict, post_text: str) -> None:
-    if any(e.get("date") == TODAY.isoformat() for e in chronicle):
-        print("  chronicle: entry for today already exists, skipping duplicate")
-        return
-    entry = {
-        "date":         TODAY.isoformat(),
-        "category":     story.get("category", ""),
-        "headline":     story.get("story_headline", ""),
-        "angle":        story.get("story_summary", "")[:150],
-        "key_claim":    story.get("key_data_point", ""),
-        "post_preview": post_text[:200],
-    }
-    chronicle.append(entry)
-    CHRONICLE_PATH.write_text(json.dumps(chronicle, indent=2, ensure_ascii=False), encoding="utf-8")
-    print("  chronicle.json updated")
-
-
 # ── Design System ─────────────────────────────────────────────────────────────
 # Pure dark, warm grays, restrained color — Bloomberg meets The Economist
 
@@ -736,47 +542,7 @@ table.sec tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   line-height: 1.6;
 }
 
-/* ── LinkedIn Post ── */
-.li-post {
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--surface);
-  overflow: hidden;
-  margin-bottom: 16px;
-}
-.li-post-hd {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text-3);
-  padding: 12px 16px 10px;
-  border-bottom: 1px solid var(--border);
-  background: var(--surface-2);
-}
-.li-copy-btn {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--accent);
-  background: none;
-  border: 1px solid var(--border-2);
-  border-radius: 6px;
-  padding: 4px 10px;
-  cursor: pointer;
-  text-transform: none;
-  letter-spacing: 0;
-}
 .li-copy-btn:hover { color: var(--text-1); border-color: var(--text-3); }
-.li-post-body {
-  padding: 16px;
-  font-size: 14px;
-  line-height: 1.8;
-  color: #d8d8d8;
-  white-space: pre-wrap;
-}
 
 /* ── Mobile ── */
 @media (max-width: 420px) {
@@ -836,8 +602,7 @@ def format_summary_html(summary: str) -> str:
 
 
 def render_digest(market_data: dict, summary: str, articles: list,
-                  prev_date: str, next_date: str, is_today: bool,
-                  linkedin_post: str = "") -> str:
+                  prev_date: str, next_date: str, is_today: bool) -> str:
 
     edge_name, edge_body = EDGE_TOPICS.get(WEEKDAY, ("Weekend Review", "Reflect on the week's key themes."))
     summary_html = format_summary_html(summary)
@@ -903,19 +668,6 @@ def render_digest(market_data: dict, summary: str, articles: list,
             f'</div>'
         )
 
-    # LinkedIn post block
-    if linkedin_post:
-        escaped = linkedin_post.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
-        linkedin_html = f"""<div class="li-post">
-  <div class="li-post-hd">
-    <span>Today's LinkedIn Post</span>
-    <button class="li-copy-btn" onclick="navigator.clipboard.writeText(this.dataset.post);this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1800)" data-post="{escaped}">Copy</button>
-  </div>
-  <div class="li-post-body">{escaped}</div>
-</div>"""
-    else:
-        linkedin_html = ""
-
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -961,7 +713,6 @@ def render_digest(market_data: dict, summary: str, articles: list,
   </div>
 </div>
 
-{linkedin_html}
 
 <div class="articles">
   <div class="articles-hd">Source Articles — tap to read in full</div>
@@ -1083,31 +834,6 @@ def notify(market_data: dict) -> None:
         print(f"  [notify] Failed: {e}")
 
 
-def notify_linkedin(post_text: str, story: dict) -> None:
-    """Second Bark push: tap to copy the full post to clipboard."""
-    if not BARK_KEY or not post_text:
-        return
-    category  = story.get("category", "")
-    cat_label = CATEGORIES.get(category, "Finance").split("—")[0].strip()
-    preview   = post_text[:140].rsplit(" ", 1)[0] + "…"
-    try:
-        r = requests.post(
-            "https://api.day.app/push",
-            json={
-                "device_key": BARK_KEY,
-                "title":      f"Post this on LinkedIn [{cat_label}]",
-                "body":       preview,
-                "copy":       post_text,
-                "sound":      "telegraph",
-            },
-            timeout=10,
-        )
-        r.raise_for_status()
-        print("  [notify] LinkedIn post notification sent (tap to copy)")
-    except Exception as e:
-        print(f"  [notify] LinkedIn notify failed: {e}")
-
-
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main() -> None:
@@ -1123,13 +849,9 @@ def main() -> None:
     print("[3/4] Summarizing (with cause & effect)...")
     summary = summarize(articles, market_data)
 
-    print("[4/4] Generating LinkedIn post + rendering...")
+    print("[4/4] Rendering...")
     Path("docs").mkdir(exist_ok=True)
     docs = Path("docs")
-
-    chronicle = load_chronicle()
-    story     = pick_story(articles, chronicle)
-    post      = generate_linkedin_post(story, chronicle) if story else ""
 
     existing     = sorted([f.stem for f in docs.glob("????-??-??.html")])
     today_str    = TODAY.isoformat()
@@ -1139,19 +861,11 @@ def main() -> None:
     next_date    = with_today[idx + 1] if idx < len(with_today) - 1 else ""
 
     html = render_digest(market_data, summary, articles, prev_date, next_date,
-                         is_today=True, linkedin_post=post)
+                         is_today=True)
 
     (docs / f"{today_str}.html").write_text(html, encoding="utf-8")
     (docs / "index.html").write_text(html, encoding="utf-8")
     print(f"  Wrote {today_str}.html + index.html")
-
-    if story and post:
-        (docs / "linkedin_post.txt").write_text(post, encoding="utf-8")
-        print("  linkedin_post.txt written")
-        append_chronicle(chronicle, story, post)
-        notify_linkedin(post, story)
-    elif not story:
-        print("  [skip] No story selected")
 
     build_archive()
     notify(market_data)

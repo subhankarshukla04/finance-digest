@@ -254,47 +254,6 @@ table.sec tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   line-height: 1.6;
 }
 
-/* ── LinkedIn Post ── */
-.li-post {
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--surface);
-  overflow: hidden;
-  margin-bottom: 16px;
-}
-.li-post-hd {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text-3);
-  padding: 12px 16px 10px;
-  border-bottom: 1px solid var(--border);
-  background: var(--surface-2);
-}
-.li-copy-btn {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--accent);
-  background: none;
-  border: 1px solid var(--border-2);
-  border-radius: 6px;
-  padding: 4px 10px;
-  cursor: pointer;
-  text-transform: none;
-  letter-spacing: 0;
-}
-.li-copy-btn:hover { color: var(--text-1); border-color: var(--text-3); }
-.li-post-body {
-  padding: 16px;
-  font-size: 14px;
-  line-height: 1.8;
-  color: #d8d8d8;
-  white-space: pre-wrap;
-}
 
 /* ── Mobile ── */
 @media (max-width: 420px) {
@@ -353,15 +312,6 @@ table.sec tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   </div>
 </div>
 
-<div class="li-post">
-  <div class="li-post-hd">
-    <span>Today's LinkedIn Post</span>
-    <button class="li-copy-btn" onclick="navigator.clipboard.writeText(this.dataset.post);this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1800)" data-post="i saw this story about google signing a deal with spacex to rent compute capacity for $920 million per month and it caught my eye. so basically google is looking to expand its ai capabilities and spacex has the computing infrastructure to support that, which is kind of wild. this deal highlights the growing demand for ai computing power and the significant investments being made in this area. google is clearly willing to spend big to stay ahead in ai, and that's a pretty bold move. spacex is getting a huge payday every month, which is kind of a game changer for them. i'm wondering what this means for the future of ai in finance, and how other companies will respond to this deal. 
-https://www.articlelink.com/google-spacex-deal">Copy</button>
-  </div>
-  <div class="li-post-body">i saw this story about google signing a deal with spacex to rent compute capacity for $920 million per month and it caught my eye. so basically google is looking to expand its ai capabilities and spacex has the computing infrastructure to support that, which is kind of wild. this deal highlights the growing demand for ai computing power and the significant investments being made in this area. google is clearly willing to spend big to stay ahead in ai, and that's a pretty bold move. spacex is getting a huge payday every month, which is kind of a game changer for them. i'm wondering what this means for the future of ai in finance, and how other companies will respond to this deal. 
-https://www.articlelink.com/google-spacex-deal</div>
-</div>
 
 <div class="articles">
   <div class="articles-hd">Source Articles — tap to read in full</div>

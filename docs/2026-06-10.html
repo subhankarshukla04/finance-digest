@@ -254,47 +254,6 @@ table.sec tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   line-height: 1.6;
 }
 
-/* ── LinkedIn Post ── */
-.li-post {
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--surface);
-  overflow: hidden;
-  margin-bottom: 16px;
-}
-.li-post-hd {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text-3);
-  padding: 12px 16px 10px;
-  border-bottom: 1px solid var(--border);
-  background: var(--surface-2);
-}
-.li-copy-btn {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--accent);
-  background: none;
-  border: 1px solid var(--border-2);
-  border-radius: 6px;
-  padding: 4px 10px;
-  cursor: pointer;
-  text-transform: none;
-  letter-spacing: 0;
-}
-.li-copy-btn:hover { color: var(--text-1); border-color: var(--text-3); }
-.li-post-body {
-  padding: 16px;
-  font-size: 14px;
-  line-height: 1.8;
-  color: #d8d8d8;
-  white-space: pre-wrap;
-}
 
 /* ── Mobile ── */
 @media (max-width: 420px) {
@@ -353,15 +312,6 @@ table.sec tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   </div>
 </div>
 
-<div class="li-post">
-  <div class="li-post-hd">
-    <span>Today's LinkedIn Post</span>
-    <button class="li-copy-btn" onclick="navigator.clipboard.writeText(this.dataset.post);this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1800)" data-post="i saw this article about oracle's stock surge due to ai hype and it caught my eye because the company's stock has risen so much, but now they actually have to deliver the earnings to match. so oracle's fourth-quarter earnings call is going to be pretty critical, as they need to provide updates on their data-center build-out and ai pivot. this story matters because it highlights the growing importance of ai in the tech industry and the need for companies to deliver on their ai promises. i've been watching this trend and it's kind of wild that oracle is building out 42,000 new servers, which is a huge investment. the question is, can they actually turn this into profits? oracle's earnings call will be one to watch. 
-https://www.articlelink.com/oracleaihype">Copy</button>
-  </div>
-  <div class="li-post-body">i saw this article about oracle's stock surge due to ai hype and it caught my eye because the company's stock has risen so much, but now they actually have to deliver the earnings to match. so oracle's fourth-quarter earnings call is going to be pretty critical, as they need to provide updates on their data-center build-out and ai pivot. this story matters because it highlights the growing importance of ai in the tech industry and the need for companies to deliver on their ai promises. i've been watching this trend and it's kind of wild that oracle is building out 42,000 new servers, which is a huge investment. the question is, can they actually turn this into profits? oracle's earnings call will be one to watch. 
-https://www.articlelink.com/oracleaihype</div>
-</div>
 
 <div class="articles">
   <div class="articles-hd">Source Articles — tap to read in full</div>

@@ -254,47 +254,6 @@ table.sec tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   line-height: 1.6;
 }
 
-/* ── LinkedIn Post ── */
-.li-post {
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--surface);
-  overflow: hidden;
-  margin-bottom: 16px;
-}
-.li-post-hd {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text-3);
-  padding: 12px 16px 10px;
-  border-bottom: 1px solid var(--border);
-  background: var(--surface-2);
-}
-.li-copy-btn {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--accent);
-  background: none;
-  border: 1px solid var(--border-2);
-  border-radius: 6px;
-  padding: 4px 10px;
-  cursor: pointer;
-  text-transform: none;
-  letter-spacing: 0;
-}
-.li-copy-btn:hover { color: var(--text-1); border-color: var(--text-3); }
-.li-post-body {
-  padding: 16px;
-  font-size: 14px;
-  line-height: 1.8;
-  color: #d8d8d8;
-  white-space: pre-wrap;
-}
 
 /* ── Mobile ── */
 @media (max-width: 420px) {
@@ -353,15 +312,6 @@ table.sec tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   </div>
 </div>
 
-<div class="li-post">
-  <div class="li-post-hd">
-    <span>Today's LinkedIn Post</span>
-    <button class="li-copy-btn" onclick="navigator.clipboard.writeText(this.dataset.post);this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1800)" data-post="i saw this article about airwallex hitting an $11 billion valuation with its latest funding round and what caught my eye was the huge jump in valuation, which is kind of wild. so airwallex just raised $320 million in funding, bringing its valuation to $11 billion, as it expands its financial infrastructure to support businesses using ai agents for payments and finance. this matters because it shows how much investors are betting on ai in finance, and the potential for significant returns on investment in this area. but what i'm wondering is how airwallex plans to use this funding to build out its platform and develop its ai capabilities, and whether we'll see other fintech companies follow suit. airwallex is now one of the most valuable private fintech companies in the world, and that's a pretty big deal. 
-https://www.articlelink.com/airwallex-funding-round">Copy</button>
-  </div>
-  <div class="li-post-body">i saw this article about airwallex hitting an $11 billion valuation with its latest funding round and what caught my eye was the huge jump in valuation, which is kind of wild. so airwallex just raised $320 million in funding, bringing its valuation to $11 billion, as it expands its financial infrastructure to support businesses using ai agents for payments and finance. this matters because it shows how much investors are betting on ai in finance, and the potential for significant returns on investment in this area. but what i'm wondering is how airwallex plans to use this funding to build out its platform and develop its ai capabilities, and whether we'll see other fintech companies follow suit. airwallex is now one of the most valuable private fintech companies in the world, and that's a pretty big deal. 
-https://www.articlelink.com/airwallex-funding-round</div>
-</div>
 
 <div class="articles">
   <div class="articles-hd">Source Articles — tap to read in full</div>

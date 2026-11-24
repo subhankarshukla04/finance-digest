@@ -254,47 +254,6 @@ table.sec tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   line-height: 1.6;
 }
 
-/* ── LinkedIn Post ── */
-.li-post {
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--surface);
-  overflow: hidden;
-  margin-bottom: 16px;
-}
-.li-post-hd {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text-3);
-  padding: 12px 16px 10px;
-  border-bottom: 1px solid var(--border);
-  background: var(--surface-2);
-}
-.li-copy-btn {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--accent);
-  background: none;
-  border: 1px solid var(--border-2);
-  border-radius: 6px;
-  padding: 4px 10px;
-  cursor: pointer;
-  text-transform: none;
-  letter-spacing: 0;
-}
-.li-copy-btn:hover { color: var(--text-1); border-color: var(--text-3); }
-.li-post-body {
-  padding: 16px;
-  font-size: 14px;
-  line-height: 1.8;
-  color: #d8d8d8;
-  white-space: pre-wrap;
-}
 
 /* ── Mobile ── */
 @media (max-width: 420px) {
@@ -353,15 +312,6 @@ table.sec tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
   </div>
 </div>
 
-<div class="li-post">
-  <div class="li-post-hd">
-    <span>Today's LinkedIn Post</span>
-    <button class="li-copy-btn" onclick="navigator.clipboard.writeText(this.dataset.post);this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1800)" data-post="i saw this article about iran warning the us against attacks on its oil tankers and other ships, which caught my eye because of the potential impact on global markets. so, basically, iran is threatening a heavy assault on us bases in the region if such attacks occur, and this is all happening while the us and iran are already engaged in a conflict that's led to a surge in oil prices and concerns about global economic stability. and what's kind of wild is that oil prices have already risen by 21.5%, which is a significant jump. this situation is being closely watched by world leaders, who are eager to avoid further escalation. the question now is whether this ceasefire will hold, and what will happen to oil prices if it doesn't. oil prices are going to be all over the place if this escalates. 
-https://www.articlelink.com/iranwarnsus">Copy</button>
-  </div>
-  <div class="li-post-body">i saw this article about iran warning the us against attacks on its oil tankers and other ships, which caught my eye because of the potential impact on global markets. so, basically, iran is threatening a heavy assault on us bases in the region if such attacks occur, and this is all happening while the us and iran are already engaged in a conflict that's led to a surge in oil prices and concerns about global economic stability. and what's kind of wild is that oil prices have already risen by 21.5%, which is a significant jump. this situation is being closely watched by world leaders, who are eager to avoid further escalation. the question now is whether this ceasefire will hold, and what will happen to oil prices if it doesn't. oil prices are going to be all over the place if this escalates. 
-https://www.articlelink.com/iranwarnsus</div>
-</div>
 
 <div class="articles">
   <div class="articles-hd">Source Articles — tap to read in full</div>
